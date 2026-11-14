@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jet Tracker 1</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/maplibre-gl.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">✈</span> Jet Tracker 1</div>
+  <div class="summary" id="summary">Loading…</div>
+</header>
+<main>
+  <section id="map"></section>
+  <aside id="panel">
+    <div class="controls">
+      <div class="chips" id="chips"></div>
+      <div class="row">
+        <input id="q" type="search" placeholder="Search tail, model, airport…">
+        <select id="sort">
+          <option value="status">Sort: flying first</option>
+          <option value="operator">Sort: operator</option>
+          <option value="tail">Sort: tail</option>
+          <option value="seen">Sort: last seen</option>
+        </select>
+      </div>
+      <label class="small"><input type="checkbox" id="showLow"> Show unconfirmed tails (low confidence)</label>
+    </div>
+    <div id="cards"></div>
+    <footer class="small" id="foot"></footer>
+  </aside>
+</main>
+<div id="waking" class="waking"><div><div class="spin"></div><b>Loading live positions…</b><br><span>If the app was idle, the free server takes up to a minute to wake up.</span></div></div>
+<button id="toggle" class="toggle">List</button>
+</body>
+</html>

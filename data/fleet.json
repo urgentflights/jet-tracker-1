@@ -1,0 +1,905 @@
+{
+ "_readme": "Edit this file to add operators/tails. Each tail needs tail + op (operator id). hex (ICAO 24-bit Mode S, from registry.faa.gov) is optional: the server looks it up from the FAA registry if missing. Restart not needed; file is re-read every minute.",
+ "operators": [
+  {
+   "id": "cadre",
+   "name": "Cadre Aviation",
+   "base": "SAT",
+   "color": "#e6194b",
+   "cert": "8C4A",
+   "certName": "Cadre Aviation Services LLC"
+  },
+  {
+   "id": "mn",
+   "name": "M&N Aviation",
+   "base": "APA",
+   "color": "#3cb44b",
+   "cert": "MY5A",
+   "certName": "M & N Equipment, LLC dba M&N Aviation"
+  },
+  {
+   "id": "hopajet",
+   "name": "Hop-A-Jet",
+   "base": "FXE",
+   "color": "#4363d8",
+   "cert": "V6NA",
+   "certName": "Ace Aviation Services Corp dba Hop-A-Jet Worldwide Jet Charter"
+  },
+  {
+   "id": "encore",
+   "name": "Encore Jet",
+   "base": "SAT",
+   "color": "#f58231",
+   "cert": "3N0A",
+   "certName": "Encore Jet Management LLC"
+  },
+  {
+   "id": "thunderun",
+   "name": "Thunderun",
+   "base": "BUF",
+   "color": "#911eb4",
+   "cert": "2TRA",
+   "certName": "Thunderun Aviation Corporation"
+  },
+  {
+   "id": "merlin",
+   "name": "Merlin1",
+   "base": "SAT",
+   "color": "#00a6a6",
+   "cert": "PLCA",
+   "certName": "Choice Aviation, LLC dba Merlin1"
+  },
+  {
+   "id": "ace",
+   "name": "Ace",
+   "base": "ILG",
+   "color": "#f032e6",
+   "cert": "7ATA",
+   "certName": "Ace Transport Service, Inc."
+  },
+  {
+   "id": "openair",
+   "name": "OpenAir",
+   "base": "GAI",
+   "color": "#9a6324",
+   "cert": "7KRA",
+   "certName": "K and R Aviation LLC dba OpenAir"
+  },
+  {
+   "id": "planetravel",
+   "name": "Plane Travel",
+   "base": "PMP",
+   "color": "#808000",
+   "cert": "R56A",
+   "certName": "Plane Travel LLC"
+  },
+  {
+   "id": "greatflight",
+   "name": "Great Flight",
+   "base": "DJT",
+   "color": "#000075",
+   "cert": "6GFA",
+   "certName": "Great Flight Inc"
+  }
+ ],
+ "tails": [
+  {
+   "tail": "N308MR",
+   "hex": "a33e2d",
+   "op": "cadre",
+   "model": "Citation III",
+   "faaModel": "CESSNA 650",
+   "year": "1988",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (8C4A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N71LP",
+   "hex": "a97abc",
+   "op": "cadre",
+   "model": "Citation I/SP",
+   "faaModel": "CESSNA 501",
+   "year": "1979",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (8C4A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N800GM",
+   "hex": "aae27f",
+   "op": "cadre",
+   "model": "Citation III",
+   "faaModel": "CESSNA 650",
+   "year": "1985",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (8C4A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N125XP",
+   "hex": "a06860",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N15HR",
+   "hex": "a0c895",
+   "op": "mn",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2005",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N212AG",
+   "hex": "a1c0f7",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2007",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N361CA",
+   "hex": "a41036",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2005",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N565SK",
+   "hex": "a73b17",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N682D",
+   "hex": "a90af0",
+   "op": "mn",
+   "model": "Hawker 800A",
+   "faaModel": "BRITISH AEROSPACE BAE 125 SERIES 800A",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N707KG",
+   "hex": "a96f77",
+   "op": "mn",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2009",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N717KV",
+   "hex": "a99703",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N800TL",
+   "hex": "aae391",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N817SD",
+   "hex": "ab24f1",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2005",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N818LX",
+   "hex": "ab2824",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2001",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N84UP",
+   "hex": "ab7f50",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N850DP",
+   "hex": "aba7b1",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N909AC",
+   "hex": "ac909e",
+   "op": "mn",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N91RS",
+   "hex": "ac95da",
+   "op": "mn",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N178MM",
+   "hex": "a13804",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N251SD",
+   "hex": "a25cc9",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2000",
+   "confidence": "low",
+   "source": "FAA registry",
+   "note": "Registered to Hop-A-Jet Worldwide Jet Charter Inc but not on its Part 135 certificate list"
+  },
+  {
+   "tail": "N255SL",
+   "hex": "a26bac",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2000",
+   "confidence": "low",
+   "source": "FAA registry",
+   "note": "Registered to Hop-A-Jet Worldwide Jet Charter Inc but not on its Part 135 certificate list"
+  },
+  {
+   "tail": "N317RA",
+   "hex": "a3624a",
+   "op": "hopajet",
+   "model": "Challenger 604/605",
+   "faaModel": "BOMBARDIER INC CL-600-2B16(CL-604)",
+   "year": "2004",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N350HJ",
+   "hex": "a3e585",
+   "op": "hopajet",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2014",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N352XR",
+   "hex": "a3ee58",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2008",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N358JA",
+   "hex": "a4034e",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N367LJ",
+   "hex": "a42750",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N60HJ",
+   "hex": "a7c59e",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2010",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N613JR",
+   "hex": "a7fabb",
+   "op": "hopajet",
+   "model": "Challenger 604/605",
+   "faaModel": "BOMBARDIER INC CL-600-2B16",
+   "year": "2016",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N650HJ",
+   "hex": "a88d72",
+   "op": "hopajet",
+   "model": "Challenger 604/605",
+   "faaModel": "BOMBARDIER INC CL-600-2B16",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N65HU",
+   "hex": "a88b23",
+   "op": "hopajet",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2001",
+   "confidence": "low",
+   "source": "FAA registry",
+   "note": "Registered to Hop-A-Jet Worldwide Jet Charter Inc but not on its Part 135 certificate list"
+  },
+  {
+   "tail": "N699ST",
+   "hex": "a94dc7",
+   "op": "hopajet",
+   "model": "Challenger 604/605",
+   "faaModel": "BOMBARDIER INC CL-600-2B16",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (V6NA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N225SB",
+   "hex": "a1f526",
+   "op": "encore",
+   "model": "Beechjet 400A",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 400A",
+   "year": "2007",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3N0A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N650JL",
+   "hex": "a88d8d",
+   "op": "encore",
+   "model": "Citation VII",
+   "faaModel": "CESSNA 650",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3N0A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N661WD",
+   "hex": "a8b9e8",
+   "op": "encore",
+   "model": "Beechjet 400A",
+   "faaModel": "BEECH 400A",
+   "year": "1994",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3N0A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N82QD",
+   "hex": "ab2fe4",
+   "op": "encore",
+   "model": "Beechjet 400A",
+   "faaModel": "BEECH 400A",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3N0A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N990EV",
+   "hex": "add31b",
+   "op": "encore",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3N0A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N103JL",
+   "hex": "a010ac",
+   "op": "thunderun",
+   "model": "Learjet 31",
+   "faaModel": "LEARJET INC 31",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (2TRA, Nov 2026) + FAA registry",
+   "note": "FAA registration status code 25 (not Valid) - may be inactive"
+  },
+  {
+   "tail": "N171AR",
+   "hex": "a11cf4",
+   "op": "thunderun",
+   "model": "Learjet 31",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (2TRA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N240B",
+   "hex": "a23018",
+   "op": "thunderun",
+   "model": "Learjet 31",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (2TRA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N278TT",
+   "hex": "a2c5ef",
+   "op": "thunderun",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1995",
+   "confidence": "medium",
+   "source": "FAA registry + operator website",
+   "note": "On thunderunaviation.com fleet page and registered to Thunderun Aviation Corp, but not on the Nov 2026 Part 135 list"
+  },
+  {
+   "tail": "N744N",
+   "hex": "aa0292",
+   "op": "thunderun",
+   "model": "Learjet 31",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1993",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (2TRA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N8TG",
+   "hex": "aadedb",
+   "op": "thunderun",
+   "model": "Learjet 31",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (2TRA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N595DC",
+   "hex": "a7b048",
+   "op": "merlin",
+   "model": "Citation III",
+   "faaModel": "CESSNA 650",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N622PM",
+   "hex": "a81efc",
+   "op": "merlin",
+   "model": "Citation VII",
+   "faaModel": "CESSNA 650",
+   "year": "1993",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N650SG",
+   "hex": "a88e51",
+   "op": "merlin",
+   "model": "Citation III",
+   "faaModel": "CESSNA 650",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N650W",
+   "hex": "a88eae",
+   "op": "merlin",
+   "model": "Citation VI",
+   "faaModel": "CESSNA 650",
+   "year": "1994",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N7AB",
+   "hex": "a94fde",
+   "op": "merlin",
+   "model": "Citation VII",
+   "faaModel": "CESSNA 650",
+   "year": "1996",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N902F",
+   "hex": "ac7717",
+   "op": "merlin",
+   "model": "Citation VII",
+   "faaModel": "CESSNA 650",
+   "year": "1993",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N98XS",
+   "hex": "adaae9",
+   "op": "merlin",
+   "model": "Citation VII",
+   "faaModel": "CESSNA 650",
+   "year": "1995",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (PLCA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N159FM",
+   "hex": "a0ec27",
+   "op": "ace",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2003",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7ATA, Nov 2026) + FAA registry",
+   "note": "Assumed \"Ace\" = Ace Transport Service Inc (New Castle/Wilmington DE, ILG). Verify."
+  },
+  {
+   "tail": "N15TV",
+   "hex": "a0c993",
+   "op": "ace",
+   "model": "Cessna 310R",
+   "faaModel": "CESSNA 310R",
+   "year": "",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7ATA, Nov 2026) + FAA registry",
+   "note": "Assumed \"Ace\" = Ace Transport Service Inc (New Castle/Wilmington DE, ILG). Verify."
+  },
+  {
+   "tail": "N220HD",
+   "hex": "a1e1b4",
+   "op": "ace",
+   "model": "Cessna 310R",
+   "faaModel": "CESSNA 310R",
+   "year": "1975",
+   "confidence": "low",
+   "source": "FAA registry",
+   "note": "Registered to Ace Transport Service Inc but not on its Part 135 certificate list"
+  },
+  {
+   "tail": "N825SD",
+   "hex": "ab4502",
+   "op": "ace",
+   "model": "King Air C90",
+   "faaModel": "BEECH C90",
+   "year": "1996",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7ATA, Nov 2026) + FAA registry",
+   "note": "Assumed \"Ace\" = Ace Transport Service Inc (New Castle/Wilmington DE, ILG). Verify."
+  },
+  {
+   "tail": "N246KB",
+   "hex": "a2472c",
+   "op": "openair",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2023",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N412PG",
+   "hex": "a4dcda",
+   "op": "openair",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2026",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N490UD",
+   "hex": "a611de",
+   "op": "openair",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2020",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N518LL",
+   "hex": "a6802c",
+   "op": "openair",
+   "model": "Cirrus SR22T",
+   "faaModel": "CIRRUS DESIGN CORP SR22T",
+   "year": "2026",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N520TD",
+   "hex": "a68a9b",
+   "op": "openair",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2025",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N64AR",
+   "hex": "a862f2",
+   "op": "openair",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2020",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N867CA",
+   "hex": "abe90b",
+   "op": "openair",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2024",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N965XM",
+   "hex": "ad70d2",
+   "op": "openair",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2019",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (7KRA, Nov 2026) + FAA registry",
+   "note": "Certificate is K and R Aviation LLC; OpenAir DBA per CharterHub listing"
+  },
+  {
+   "tail": "N3066D",
+   "hex": "a338ca",
+   "op": "planetravel",
+   "model": "Baron 58",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 58",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N403AA",
+   "hex": "a4b7c7",
+   "op": "planetravel",
+   "model": "Citation I/SP",
+   "faaModel": "CESSNA 501",
+   "year": "1977",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N4108P",
+   "hex": "a4d79e",
+   "op": "planetravel",
+   "model": "Piper Chieftain",
+   "faaModel": "PIPER PA-31-350",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N610GG",
+   "hex": "a7ef5b",
+   "op": "planetravel",
+   "model": "Citation I/SP",
+   "faaModel": "CESSNA 501",
+   "year": "1980",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N6449H",
+   "hex": "a877b2",
+   "op": "planetravel",
+   "model": "Cessna T207A",
+   "faaModel": "CESSNA T207A",
+   "year": "1979",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N7220J",
+   "hex": "a9ad5b",
+   "op": "planetravel",
+   "model": "Baron 58",
+   "faaModel": "BEECH 58",
+   "year": "1984",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N748NP",
+   "hex": "aa117c",
+   "op": "planetravel",
+   "model": "Piper Navajo",
+   "faaModel": "PIPER PA-31-310",
+   "year": "1969",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N844C",
+   "hex": "ab8ee7",
+   "op": "planetravel",
+   "model": "King Air C90",
+   "faaModel": "BEECH C90",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (R56A, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N112CZ",
+   "hex": "a033eb",
+   "op": "greatflight",
+   "model": "Conquest II",
+   "faaModel": "CESSNA 441",
+   "year": "1981",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N14TA",
+   "hex": "a0a201",
+   "op": "greatflight",
+   "model": "Conquest II",
+   "faaModel": "CESSNA 441",
+   "year": "1980",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N169MF",
+   "hex": "a11436",
+   "op": "greatflight",
+   "model": "Conquest II",
+   "faaModel": "CESSNA 441",
+   "year": "1981",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N210TA",
+   "hex": "a1bb2c",
+   "op": "greatflight",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2023",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N293LM",
+   "hex": "a301a5",
+   "op": "greatflight",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2015",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N443PW",
+   "hex": "a5571c",
+   "op": "greatflight",
+   "model": "Citation CJ3",
+   "faaModel": "CESSNA 525B",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry",
+   "note": "Owner withheld on FAA registry"
+  },
+  {
+   "tail": "N535CS",
+   "hex": "a6c343",
+   "op": "greatflight",
+   "model": "Cirrus SR22T",
+   "faaModel": "CIRRUS DESIGN CORP SR22T",
+   "year": "2021",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N797RW",
+   "hex": "aad392",
+   "op": "greatflight",
+   "model": "Conquest II",
+   "faaModel": "CESSNA 441",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N805SR",
+   "hex": "aaf610",
+   "op": "greatflight",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N897CH",
+   "hex": "ac5f8f",
+   "op": "greatflight",
+   "model": "Citation CJ3",
+   "faaModel": "CESSNA 525B",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N934CW",
+   "hex": "acf4cc",
+   "op": "greatflight",
+   "model": "Citation M2",
+   "faaModel": "TEXTRON AVIATION INC 525",
+   "year": "2016",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  }
+ ]
+}
