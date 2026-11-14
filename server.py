@@ -117,6 +117,7 @@ def poll_once():
             tr = p.get('trail') or []
             if onground: tr = []  # reset trail when on ground
             else:
+                if tr and ts - tr[-1][2] > 1800: tr = []  # new flight after a long gap
                 if not tr or tr[-1][2] < ts - 20: tr.append([round(a['lat'], 4), round(a['lon'], 4), int(ts), alt])
                 tr = tr[-TRAIL_MAX:]
             p['trail'] = tr
