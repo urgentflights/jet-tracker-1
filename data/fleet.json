@@ -96,6 +96,14 @@
    "color": "#800000",
    "cert": "DIXA",
    "certName": "North Dallas Aviation, Inc."
+  },
+  {
+   "id": "heraflight",
+   "name": "Hera Flight",
+   "base": "PIE",
+   "color": "#469990",
+   "cert": "5JHA",
+   "certName": "Hera Flight, LLC"
   }
  ],
  "tails": [
@@ -1004,6 +1012,226 @@
    "confidence": "medium",
    "source": "FAA Part 135 operator/aircraft list (DIXA, Nov 2026) + FAA registry",
    "note": "Owens Aviation Inc does not hold its own Part 135 certificate. N900DS is registered to Owens Aviation Inc (Dallas) and is on North Dallas Aviation, Inc.'s DIXA certificate. North Dallas Aviation is based at Addison (ADS). Other DIXA tails (N730GY, N117WH, N82JK, N109LW) were not added because they are not Owens-owned."
+  },
+  {
+   "tail": "N110CX",
+   "hex": "a02c7b",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N222BD",
+   "hex": "a1e88c",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N26BH",
+   "hex": "a27cc5",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N348CF",
+   "hex": "a3db3e",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "2001",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N444BC",
+   "hex": "a55995",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1997",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N474ME",
+   "hex": "a5d10e",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "2001",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N610WU",
+   "hex": "a7f0c5",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N612EM",
+   "hex": "a7f69c",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N702FL",
+   "hex": "a95c84",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N750VP",
+   "hex": "aa1bf2",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "1997",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N976JS",
+   "hex": "ad9ac8",
+   "op": "heraflight",
+   "model": "Citation X",
+   "faaModel": "CESSNA 750",
+   "year": "2005",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N18TV",
+   "hex": "a14010",
+   "op": "heraflight",
+   "model": "Gulfstream IV",
+   "faaModel": "GULFSTREAM AEROSPACE G-IV",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE). FAA registry has no manufacture year."
+  },
+  {
+   "tail": "N707VV",
+   "hex": "a9707e",
+   "op": "heraflight",
+   "model": "Gulfstream IV",
+   "faaModel": "GULFSTREAM AEROSPACE G-IV",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE). FAA registry has no manufacture year."
+  },
+  {
+   "tail": "N800BH",
+   "hex": "aae1fe",
+   "op": "heraflight",
+   "model": "Gulfstream IV",
+   "faaModel": "GULFSTREAM AEROSPACE G-IV",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N808CF",
+   "hex": "aaffcd",
+   "op": "heraflight",
+   "model": "Gulfstream IV",
+   "faaModel": "GULFSTREAM AEROSPACE G-IV",
+   "year": "1991",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N880CF",
+   "hex": "ac1e0d",
+   "op": "heraflight",
+   "model": "Gulfstream IV",
+   "faaModel": "GULFSTREAM AEROSPACE G-IV",
+   "year": "1988",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N996GA",
+   "hex": "ade984",
+   "op": "heraflight",
+   "model": "Gulfstream V",
+   "faaModel": "GULFSTREAM AEROSPACE G-V",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N357WP",
+   "hex": "a400d0",
+   "op": "heraflight",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N470MD",
+   "hex": "a5c231",
+   "op": "heraflight",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N97LJ",
+   "hex": "ad824f",
+   "op": "heraflight",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
+   "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
   }
  ]
 }
