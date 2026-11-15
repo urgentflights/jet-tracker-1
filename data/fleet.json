@@ -80,6 +80,22 @@
    "color": "#000075",
    "cert": "6GFA",
    "certName": "Great Flight Inc"
+  },
+  {
+   "id": "dv",
+   "name": "DV Aviation",
+   "base": "MAF",
+   "color": "#42d4f4",
+   "cert": "GYWA",
+   "certName": "Basin Aviation, Inc."
+  },
+  {
+   "id": "owens",
+   "name": "Owens Aviation",
+   "base": "ADS",
+   "color": "#800000",
+   "cert": "DIXA",
+   "certName": "North Dallas Aviation, Inc."
   }
  ],
  "tails": [
@@ -900,6 +916,94 @@
    "year": "2016",
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (6GFA, Nov 2026) + FAA registry"
+  },
+  {
+   "tail": "N145MW",
+   "hex": "a0b66b",
+   "op": "dv",
+   "model": "Learjet 45",
+   "faaModel": "LEARJET INC 45",
+   "year": "2009",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E."
+  },
+  {
+   "tail": "N157MW",
+   "hex": "a0e558",
+   "op": "dv",
+   "model": "Learjet 75",
+   "faaModel": "LEARJET INC 45",
+   "year": "2013",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E. Listed as LR-45-75."
+  },
+  {
+   "tail": "N223MW",
+   "hex": "a1ed4e",
+   "op": "dv",
+   "model": "King Air 200",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY B200",
+   "year": "2007",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E."
+  },
+  {
+   "tail": "N225MW",
+   "hex": "a1f4bc",
+   "op": "dv",
+   "model": "King Air 250",
+   "faaModel": "BEECHCRAFT CORP B200GT",
+   "year": "2013",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E."
+  },
+  {
+   "tail": "N318CB",
+   "hex": "a364bd",
+   "op": "dv",
+   "model": "King Air 200C",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY B200",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E. Listed as BE-200-B200C."
+  },
+  {
+   "tail": "N432MC",
+   "hex": "a52ba2",
+   "op": "dv",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2008",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E."
+  },
+  {
+   "tail": "N825CA",
+   "hex": "ab43a1",
+   "op": "dv",
+   "model": "Learjet 45",
+   "faaModel": "LEARJET INC 45",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (GYWA, Nov 2026) + FAA registry",
+   "note": "Certificate is Basin Aviation, Inc.; DV Aviation's site says Basin is a DV Aviation company and charter flies under GYWA560E. FAA registry has no manufacture year."
+  },
+  {
+   "tail": "N900DS",
+   "hex": "ac6f88",
+   "op": "owens",
+   "model": "Citation CJ1",
+   "faaModel": "CESSNA 525",
+   "year": "1993",
+   "confidence": "medium",
+   "source": "FAA Part 135 operator/aircraft list (DIXA, Nov 2026) + FAA registry",
+   "note": "Owens Aviation Inc does not hold its own Part 135 certificate. N900DS is registered to Owens Aviation Inc (Dallas) and is on North Dallas Aviation, Inc.'s DIXA certificate. North Dallas Aviation is based at Addison (ADS). Other DIXA tails (N730GY, N117WH, N82JK, N109LW) were not added because they are not Owens-owned."
   }
  ]
 }
