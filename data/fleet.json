@@ -104,6 +104,14 @@
    "color": "#469990",
    "cert": "5JHA",
    "certName": "Hera Flight, LLC"
+  },
+  {
+   "id": "trueaviation",
+   "name": "True Aviation",
+   "base": "AVP",
+   "color": "#dcbeff",
+   "cert": "5TRA",
+   "certName": "True Aviation Charter Services, LLC"
   }
  ],
  "tails": [
@@ -1232,6 +1240,116 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (5JHA, Nov 2026) + FAA registry",
    "note": "Confirmed by user as Hera Flight, LLC (5JHA), based at St. Pete-Clearwater (PIE)."
+  },
+  {
+   "tail": "N200SG",
+   "hex": "a1939a",
+   "op": "trueaviation",
+   "model": "Falcon 50",
+   "faaModel": "DASSAULT-BREGUET FALCON 50",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT. FAA registry has no manufacture year."
+  },
+  {
+   "tail": "N626HJ",
+   "hex": "a82d3f",
+   "op": "trueaviation",
+   "model": "Falcon 50",
+   "faaModel": "DASSAULT-BREGUET FALCON 50",
+   "year": "1988",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N77ME",
+   "hex": "aa67c6",
+   "op": "trueaviation",
+   "model": "Falcon 50",
+   "faaModel": "AVIONS MARCEL DASSAULT BREGUET MYSTERE FALCON 50",
+   "year": "1982",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N990MM",
+   "hex": "add3c2",
+   "op": "trueaviation",
+   "model": "Falcon 50",
+   "faaModel": "DASSAULT-BREGUET FALCON 50",
+   "year": "1982",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N345KM",
+   "hex": "a3d0ce",
+   "op": "trueaviation",
+   "model": "Falcon 900B",
+   "faaModel": "DASSAULT-BREGUET MYSTERE FALCON 900",
+   "year": "1986",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N610RL",
+   "hex": "a7f040",
+   "op": "trueaviation",
+   "model": "Falcon 900B",
+   "faaModel": "DASSAULT-BREGUET MYSTERE FALCON 900",
+   "year": "1988",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N950SF",
+   "hex": "ad363d",
+   "op": "trueaviation",
+   "model": "Falcon 900B",
+   "faaModel": "DASSAULT-BREGUET MYSTERE FALCON 900",
+   "year": "1988",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N900ER",
+   "hex": "ac6fa0",
+   "op": "trueaviation",
+   "model": "Falcon 900C",
+   "faaModel": "DASSAULT AVIATION MYSTERE FALCON 900",
+   "year": "2001",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N900VP",
+   "hex": "ac7115",
+   "op": "trueaviation",
+   "model": "Falcon 900C",
+   "faaModel": "DASSAULT AVIATION MYSTERE FALCON 900",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N135TR",
+   "hex": "a08f7d",
+   "op": "trueaviation",
+   "model": "Cessna T182T",
+   "faaModel": "CESSNA T182T",
+   "year": "2011",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
+   "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
   }
  ]
 }
