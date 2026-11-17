@@ -143,6 +143,11 @@ class H(SimpleHTTPRequestHandler):
         super().end_headers()
     def do_GET(s):
         path = s.path.split('?')[0]
+        if path == '/healthz':
+            b = b'ok'
+            s.send_response(200); s.send_header('Content-Type', 'text/plain; charset=utf-8')
+            s.send_header('Cache-Control', 'no-store'); s.send_header('Content-Length', str(len(b)))
+            s.end_headers(); s.wfile.write(b); return
         if path == '/api/fleet':
             return s.send_json({'operators': fleet['operators'], 'tails': fleet['tails']})
         if path == '/api/state':
@@ -154,9 +159,28 @@ class H(SimpleHTTPRequestHandler):
                                     'source': state['lastSource'], 'error': state['lastError'], 'planes': planes})
         return super().do_GET()
 
+def keepalive():
+    """Hit the public URL so Render's free instance does not idle out.
+    Skips when RENDER_EXTERNAL_URL is unset (local/box copies)."""
+    base = (os.environ.get('RENDER_EXTERNAL_URL') or '').rstrip('/')
+    if not base:
+        return
+    url = base + '/healthz'
+    time.sleep(60)  # first ping about a minute after startup
+    while True:
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'ParaFlightJetTracker1-keepalive/1.0'})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                print('keepalive', r.status, flush=True)
+        except Exception as e:
+            print('keepalive failed', e, flush=True)
+        time.sleep(600)
+
 if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get('PORT', '8135'))
     load_fleet()
     threading.Thread(target=poller, daemon=True).start()
+    if os.environ.get('RENDER_EXTERNAL_URL'):
+        threading.Thread(target=keepalive, daemon=True).start()
     print(f'Jet Tracker 1 on http://0.0.0.0:{port}', flush=True)
     ThreadingHTTPServer(('0.0.0.0', port), H).serve_forever()
