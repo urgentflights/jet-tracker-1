@@ -75,3 +75,5 @@ footer{padding:10px 12px 30px;margin-top:auto}
 .spin{width:34px;height:34px;border:4px solid #334155;border-top-color:#38bdf8;border-radius:50%;margin:0 auto 12px;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 @media (min-width:1200px){#panel{width:560px}}
 #activeTbl{font-size:12.5px}#activeTbl td,#activeTbl th{padding:7px 6px}
+.tbl .sub.mob{display:none;font-weight:400}
+@media (max-width:800px){.tbl .hm2{display:none}.tbl .sub.mob{display:block}#fleetTbl td{white-space:normal;min-width:84px}#fleetTbl td:first-child{min-width:120px}}

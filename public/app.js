@@ -187,7 +187,7 @@ function renderFleetTable() {
   $('#fleetTbl tbody').innerHTML = rows.map(({t, s}) => {
     const L = s.landed;
     return `<tr data-tail="${esc(t.tail)}">
-      <td class="b">${opDot(t)}${esc(t.tail)}</td><td>${esc(opName(t))}</td><td>${esc(typeOf(t))}</td>
+      <td class="b">${opDot(t)}${esc(t.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td><td class="hm2">${esc(opName(t))}</td><td class="hm2">${esc(typeOf(t))}</td>
       <td><span class="badge ${s.kind}">${s.label}</span>${s.kind === 'air' ? `<span class="sub">${altTxt(s.p.altFt)} · ${s.p.gsKt != null ? Math.round(s.p.gsKt) + ' kt' : ''}${s.origin ? ' · from ' + esc(apCode(s.origin)) : ''}</span>` : ''}</td>
       <td title="${L ? esc(apName(L) + ' · ' + (HOW[L.how] || '')) : ''}">${L ? `<b>${esc(apCode(L) || '?')}</b> <span class="sub">${esc(fmtTime(L.ts))} · ${ago(nowS() - L.ts)}${L.inferred ? ' · inferred' : ''}</span>` : '<span class="muted">—</span>'}</td>
       <td>${s.p ? `${esc(apCode(s.at || s.p.near) || '')} <span class="sub">${esc(fmtTime(s.p.ts))} · ${ago(s.age)}</span>` : '<span class="muted">never seen yet</span>'}</td></tr>`;
