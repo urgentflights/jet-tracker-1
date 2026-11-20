@@ -129,7 +129,7 @@ def add_event(p, kind, ts, ap, how, inferred, new_events):
     e = {'hex': p['hex'], 'tail': p.get('tail'), 'kind': kind, 'ts': round(float(ts), 3), 'ap': ap_brief(ap),
          'lat': p.get('lat'), 'lon': p.get('lon'), 'altFt': p.get('altFt'), 'how': how, 'inferred': bool(inferred)}
     k = (e['hex'], kind, e['ts'])
-    if k in event_keys: return e
+    if k in event_keys or not event_ok(e): return e
     event_keys.add(k); events.append(e); new_events.append(e)
     if len(events) > EVENTS_MEM: del events[:len(events) - EVENTS_MEM]
     info = dict(ap_brief(ap) or {}, ts=e['ts'], how=how, inferred=bool(inferred))
@@ -149,6 +149,8 @@ def recompute_last(p):
         last = next((e for e in reversed(events) if e['hex'] == p['hex'] and e['kind'] == kind), None)
         if last: p[key] = dict(last['ap'] or {}, ts=last['ts'], how=last['how'], inferred=last['inferred'])
         else: p.pop(key, None)
+    if p.get('lastTakeoff'): p['from'] = p['lastTakeoff']
+    else: p.pop('from', None)
 
 def is_ground(a, alt, gs):
     if a.get('alt_baro') == 'ground': return True
@@ -199,8 +201,14 @@ def process_sample(p, a, src, now, new_events, deleted):
             origin = p.get('groundAirport')
             far = bool(origin and 'lat' in origin and nm(a['lat'], a['lon'], origin['lat'], origin['lon']) > 60)
             unheard = prev_ts is not None and ts - prev_ts > 900
-            if origin is None and alt is not None and alt < 3000: origin = ap_close
-            add_event(p, 'takeoff', ts, origin, 'first-seen-airborne' if unheard else 'ground-flag', unheard or far, new_events)
+            climbing_near = alt is not None and alt < 4000 and (p.get('vsFpm') or 0) > 300 and ap_close
+            if (far or origin is None) and climbing_near:
+                add_event(p, 'takeoff', ts, ap_close, 'first-seen-climbing', True, new_events)
+            elif far and unheard and ts - prev_ts > 6 * 3600:
+                pass  # parked long ago somewhere else, now flying far away: real origin unknown, record nothing
+            else:
+                if origin is None and alt is not None and alt < 3000: origin = ap_close
+                add_event(p, 'takeoff', ts, origin, 'first-seen-airborne' if unheard else 'ground-flag', unheard or far, new_events)
             p['phase'] = 'air'; p['pendingInferred'] = None
         elif phase is None:
             # first sample ever and already flying: if it is low, climbing and near a field, call it a takeoff
@@ -285,6 +293,13 @@ def merge_plane(a, b):
     if other.get('firstSeen') and (not base.get('firstSeen') or other['firstSeen'] < base['firstSeen']): base['firstSeen'] = other['firstSeen']
     return base
 
+purge = []
+def event_ok(e):
+    """Drop impossible events (position far from the airport it was matched to), e.g. from stale seed data."""
+    ap = e.get('ap') or {}
+    if 'lat' in ap and e.get('lat') is not None and nm(e['lat'], e['lon'], ap['lat'], ap['lon']) > 150: return False
+    return True
+
 def on_backend_load(planes, evs, name):
     with lock:
         for h, p in (planes or {}).items():
@@ -292,6 +307,7 @@ def on_backend_load(planes, evs, name):
         added = 0
         for e in evs or []:
             try:
+                if not event_ok(e): purge.append(e); continue
                 k = (e['hex'], e['kind'], round(float(e['ts']), 3))
                 if k in event_keys: continue
                 event_keys.add(k); events.append(e); added += 1
@@ -392,6 +408,12 @@ if __name__ == '__main__':
     store.start()
     try: load_fleet()
     except Exception as e: log('fleet load failed', e)
+    if purge:
+        log('purging', len(purge), 'impossible events')
+        with lock:
+            for p in state['planes'].values():
+                if any(x['hex'] == p.get('hex') for x in purge): recompute_last(p)
+        store.save(deleted=list(purge), planes={x['hex']: dict(state['planes'][x['hex']]) for x in purge if x['hex'] in state['planes']})
     threading.Thread(target=poller, daemon=True).start()
     if os.environ.get('RENDER_EXTERNAL_URL'): threading.Thread(target=keepalive, daemon=True).start()
     log(f'ParaFlight Jet Tracker 1 on http://0.0.0.0:{port}  storage={list(store.status)}')
