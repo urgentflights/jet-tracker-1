@@ -136,6 +136,14 @@
    "color": "#ffe119",
    "cert": "2NEA",
    "certName": "AirNet II LLC"
+  },
+  {
+   "id": "chrysler",
+   "name": "Chrysler Aviation",
+   "base": "VNY",
+   "color": "#bfef45",
+   "cert": "AAUA",
+   "certName": "Chrysler Aviation Inc"
   }
  ],
  "tails": [
@@ -1968,6 +1976,72 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (KC8A, Nov 2026) + FAA registry",
    "note": "User asked for Kalitta. Kalitta Charters LLC (KC8A), Ypsilanti/Willow Run (YIP). No separate 'Kalitta Charters II' Part 135 certificate exists on the FAA list."
+  },
+  {
+   "tail": "N54DD",
+   "hex": "a6d5e2",
+   "op": "chrysler",
+   "model": "Citation V",
+   "faaModel": "CESSNA 560",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N561SR",
+   "hex": "a72c41",
+   "op": "chrysler",
+   "model": "Citation V",
+   "faaModel": "CESSNA 560",
+   "year": "1991",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N810BE",
+   "hex": "ab097a",
+   "op": "chrysler",
+   "model": "Citation V",
+   "faaModel": "CESSNA 560",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N904LR",
+   "hex": "ac7f12",
+   "op": "chrysler",
+   "model": "Citation V",
+   "faaModel": "CESSNA 560",
+   "year": "1992",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N968SR",
+   "hex": "ad7b7e",
+   "op": "chrysler",
+   "model": "Citation Ultra",
+   "faaModel": "CESSNA 560",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N236N",
+   "hex": "a21ff6",
+   "op": "chrysler",
+   "model": "Challenger 601",
+   "faaModel": "CANADAIR LTD CL-600-2B16",
+   "year": "1992",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
+   "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
   }
  ]
 }
