@@ -12,34 +12,74 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=4">
 <script src="vendor/maplibre-gl.js" defer></script>
-<script src="app.js" defer></script>
+<script src="app.js?v=4" defer></script>
 </head>
-<body>
+<body class="view-map">
 <header>
-  <div class="brand"><span class="logo">✈</span> ParaFlight Jet Tracker 1</div>
-  <div class="summary" id="summary">Loading…</div>
+  <div class="brand"><span class="logo">✈</span> <span class="bname">ParaFlight Jet Tracker 1</span></div>
+  <div class="hright">
+    <span id="fresh" class="fresh" title="Age of the newest ADS-B data on the server">Data — · —</span>
+    <div class="seg" id="viewseg"><button data-view="map" class="on">Map</button><button data-view="table">Table</button></div>
+  </div>
 </header>
+<div class="subbar"><span id="summary">Loading…</span></div>
 <main>
-  <section id="map"></section>
-  <aside id="panel">
-    <div class="controls">
-      <div class="chips" id="chips"></div>
-      <div class="row">
-        <input id="q" type="search" placeholder="Search tail, model, airport…">
-        <select id="sort">
-          <option value="status">Sort: flying first</option>
-          <option value="operator">Sort: operator</option>
-          <option value="tail">Sort: tail</option>
-          <option value="seen">Sort: last seen</option>
-        </select>
+  <div id="mapview">
+    <section id="map"></section>
+    <aside id="panel">
+      <div class="tabs" id="tabs"><button data-tab="active" class="on">Active now <b id="nActive">0</b></button><button data-tab="cards">All tails <b id="nAll">0</b></button></div>
+      <div id="tab-active">
+        <div class="tblwrap"><table class="tbl" id="activeTbl">
+          <thead><tr>
+            <th data-k="tail">Tail</th><th data-k="op">Operator</th><th data-k="type" class="hm">Type</th><th data-k="alt" class="num" title="feet / flight level">Alt</th>
+            <th data-k="gs" class="num" title="ground speed, knots">GS</th><th data-k="hdg" class="num">Hdg</th><th data-k="from">From</th><th data-k="up" class="num">Up</th>
+          </tr></thead><tbody></tbody></table></div>
+        <p class="small pad" id="activeEmpty"></p>
       </div>
-      <label class="small"><input type="checkbox" id="showLow"> Show unconfirmed tails (low confidence)</label>
+      <div id="tab-cards" class="hide">
+        <div class="controls">
+          <div class="chips" id="chips"></div>
+          <div class="row">
+            <input id="q" type="search" placeholder="Search tail, model, airport…">
+            <select id="sort">
+              <option value="status">Sort: flying first</option>
+              <option value="operator">Sort: operator</option>
+              <option value="tail">Sort: tail</option>
+              <option value="seen">Sort: last seen</option>
+              <option value="landed">Sort: last landed</option>
+            </select>
+          </div>
+          <label class="small"><input type="checkbox" id="showLow"> Show unconfirmed tails (low confidence)</label>
+        </div>
+        <div id="cards"></div>
+      </div>
+      <footer class="small" id="foot"></footer>
+    </aside>
+  </div>
+  <div id="tableview">
+    <div class="filters">
+      <input id="tq" type="search" placeholder="Search tail, operator, type, airport…">
+      <select id="fop"><option value="">All operators</option></select>
+      <select id="ftype"><option value="">All types</option></select>
+      <select id="fstat">
+        <option value="">Any status</option>
+        <option value="air">Airborne now</option>
+        <option value="today">On ground / seen today</option>
+        <option value="week">Seen in last 7 days</option>
+        <option value="old">Not seen 7+ days</option>
+        <option value="never">Never seen yet</option>
+      </select>
+      <span class="small inline" id="tcount"></span>
     </div>
-    <div id="cards"></div>
-    <footer class="small" id="foot"></footer>
-  </aside>
+    <div class="tblwrap big"><table class="tbl" id="fleetTbl">
+      <thead><tr>
+        <th data-k="tail">Tail</th><th data-k="op">Operator</th><th data-k="type">Type</th><th data-k="status">Status</th>
+        <th data-k="landed">Last landed</th><th data-k="seen">Last seen</th>
+      </tr></thead><tbody></tbody></table></div>
+    <p class="small pad" id="tzNote"></p>
+  </div>
 </main>
 <div id="waking" class="waking"><div><div class="spin"></div><b>Loading live positions…</b><br><span>If the app was idle, the free server takes up to a minute to wake up.</span></div></div>
 <button id="toggle" class="toggle">List</button>
