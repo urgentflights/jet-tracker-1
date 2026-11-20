@@ -112,6 +112,14 @@
    "color": "#dcbeff",
    "cert": "5TRA",
    "certName": "True Aviation Charter Services, LLC"
+  },
+  {
+   "id": "mtj",
+   "name": "MTJ Aviation",
+   "base": "INT",
+   "color": "#fabed4",
+   "cert": "3RJA",
+   "certName": "MTJ Aviation, LLC"
   }
  ],
  "tails": [
@@ -1350,6 +1358,61 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (5TRA, Nov 2026) + FAA registry",
    "note": "User asked for Tru Aviation with Falcon 50s and Falcon 900s. Certificate is True Aviation Charter Services, LLC (5TRA); they brand as True Aviation (trueaviation.com). FAA certificate address is 102 Hangar Rd, Avoca, PA (AVP). They also have Florida ops at FXE/BCT."
+  },
+  {
+   "tail": "N343SC",
+   "hex": "a3ca06",
+   "op": "mtj",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3RJA, Nov 2026) + FAA registry",
+   "note": "User asked to add 'MTJ'. Matches MTJ Aviation, LLC (3RJA), the only Part 135 certificate holder named MTJ; HQ Mooresville, NC (156 Cayuga Dr), operating base Smith Reynolds (INT), Winston-Salem, NC."
+  },
+  {
+   "tail": "N475TC",
+   "hex": "a5d559",
+   "op": "mtj",
+   "model": "Beechjet 400A",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 400A",
+   "year": "1997",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3RJA, Nov 2026) + FAA registry",
+   "note": "User asked to add 'MTJ'. Matches MTJ Aviation, LLC (3RJA), the only Part 135 certificate holder named MTJ; HQ Mooresville, NC (156 Cayuga Dr), operating base Smith Reynolds (INT), Winston-Salem, NC."
+  },
+  {
+   "tail": "N547MT",
+   "hex": "a6f312",
+   "op": "mtj",
+   "model": "Beechjet 400A",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 400A",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3RJA, Nov 2026) + FAA registry",
+   "note": "User asked to add 'MTJ'. Matches MTJ Aviation, LLC (3RJA), the only Part 135 certificate holder named MTJ; HQ Mooresville, NC (156 Cayuga Dr), operating base Smith Reynolds (INT), Winston-Salem, NC."
+  },
+  {
+   "tail": "N562MT",
+   "hex": "a72f7d",
+   "op": "mtj",
+   "model": "Beechjet 400A",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 400A",
+   "year": "1998",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3RJA, Nov 2026) + FAA registry",
+   "note": "User asked to add 'MTJ'. Matches MTJ Aviation, LLC (3RJA), the only Part 135 certificate holder named MTJ; HQ Mooresville, NC (156 Cayuga Dr), operating base Smith Reynolds (INT), Winston-Salem, NC."
+  },
+  {
+   "tail": "N65SQ",
+   "hex": "a88c00",
+   "op": "mtj",
+   "model": "Beechjet 400A",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 400A",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (3RJA, Nov 2026) + FAA registry",
+   "note": "User asked to add 'MTJ'. Matches MTJ Aviation, LLC (3RJA), the only Part 135 certificate holder named MTJ; HQ Mooresville, NC (156 Cayuga Dr), operating base Smith Reynolds (INT), Winston-Salem, NC."
   }
  ]
 }
