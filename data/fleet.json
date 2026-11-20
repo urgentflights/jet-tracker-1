@@ -144,6 +144,14 @@
    "color": "#bfef45",
    "cert": "AAUA",
    "certName": "Chrysler Aviation Inc"
+  },
+  {
+   "id": "craft",
+   "name": "Craft",
+   "base": "OPF",
+   "color": "#ffd8b1",
+   "cert": "6TXA",
+   "certName": "Craft Charter, LLC"
   }
  ],
  "tails": [
@@ -2042,6 +2050,61 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (AAUA, Nov 2026) + FAA registry",
    "note": "User asked for Chrysler Aviation. Certificate is Chrysler Aviation Inc (AAUA). FAA registry and the company's site put the base at Van Nuys (VNY), not Houston Hobby."
+  },
+  {
+   "tail": "N150MB",
+   "hex": "a0cb44",
+   "op": "craft",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2007",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
+   "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
+  },
+  {
+   "tail": "N251FT",
+   "hex": "a25bc4",
+   "op": "craft",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2011",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
+   "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
+  },
+  {
+   "tail": "N395PD",
+   "hex": "a496a5",
+   "op": "craft",
+   "model": "Challenger 350",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2015",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
+   "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
+  },
+  {
+   "tail": "N396PD",
+   "hex": "a49a5c",
+   "op": "craft",
+   "model": "Challenger 350",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2014",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
+   "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
+  },
+  {
+   "tail": "N971MC",
+   "hex": "ad8872",
+   "op": "craft",
+   "model": "Challenger 300",
+   "faaModel": "BOMBARDIER INC BD-100-1A10",
+   "year": "2007",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
+   "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
   }
  ]
 }
