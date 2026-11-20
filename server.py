@@ -33,7 +33,7 @@ src_health = {n: {'fails': 0, 'retryAt': 0, 'lastOk': None, 'lastError': None} f
 
 # ---------------------------------------------------------------- airports (OurAirports subset, grid index)
 AP = json.load(open(os.path.join(DATA, 'airports.json')))
-GRID = {}
+GRID = {}; AP_BY_CODE = {_a[0]: _a for _a in AP}
 for _a in AP: GRID.setdefault((int(math.floor(_a[6])), int(math.floor(_a[7]))), []).append(_a)
 def nm(lat1, lon1, lat2, lon2):
     p = math.pi / 180
@@ -199,7 +199,8 @@ def process_sample(p, a, src, now, new_events, deleted):
             p['phase'] = 'air'; p['pendingInferred'] = None
         elif phase == 'ground':
             origin = p.get('groundAirport')
-            far = bool(origin and 'lat' in origin and nm(a['lat'], a['lon'], origin['lat'], origin['lon']) > 60)
+            oa = AP_BY_CODE.get((origin or {}).get('code'))
+            far = bool(oa and nm(a['lat'], a['lon'], oa[6], oa[7]) > 60)
             unheard = prev_ts is not None and ts - prev_ts > 900
             climbing_near = alt is not None and alt < 4000 and (p.get('vsFpm') or 0) > 300 and ap_close
             if (far or origin is None) and climbing_near:
@@ -297,8 +298,10 @@ purge = []
 def event_ok(e):
     """Drop impossible events (position far from the airport it was matched to), e.g. from stale seed data."""
     ap = e.get('ap') or {}
-    if 'lat' in ap and e.get('lat') is not None and nm(e['lat'], e['lon'], ap['lat'], ap['lon']) > 150: return False
-    return True
+    if e.get('lat') is None or not ap: return True
+    a = AP_BY_CODE.get(ap.get('code'))
+    alat, alon = (ap['lat'], ap['lon']) if 'lat' in ap else (a[6], a[7]) if a else (None, None)
+    return alat is None or nm(e['lat'], e['lon'], alat, alon) <= 150
 
 def on_backend_load(planes, evs, name):
     with lock:
