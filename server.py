@@ -248,7 +248,9 @@ def poll_once():
     now = time.time()
     new_events, deleted, changed = [], [], {}
     with lock:
-        state['lastPoll'] = now; state['lastError'] = err; state['polls'] += 1
+        state['lastPoll'] = now; state['polls'] += 1
+        state['lastError'] = err if src is None else None   # a failover that still got data is not an error
+        state['lastFailover'] = err if src is not None else state.get('lastFailover')
         if src is not None:
             state['lastSuccess'] = now; state['lastSource'] = src; state['lastCount'] = 0
             seen = set()
