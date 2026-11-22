@@ -360,7 +360,9 @@ store = Store(RUNTIME, on_backend_load)
 
 # ---------------------------------------------------------------- HTTP
 def public_plane(p):
-    return {k: v for k, v in p.items() if not k.startswith('_') and k != 'pendingInferred'}
+    d = {k: v for k, v in p.items() if not k.startswith('_') and k != 'pendingInferred'}
+    d.setdefault('lifeguard', False); d.setdefault('lifeguardReason', None)
+    return d
 
 def health():
     now = time.time(); ls = state.get('lastSuccess')
