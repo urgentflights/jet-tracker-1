@@ -86,7 +86,7 @@ function renderChips() {
   $('#chips').innerHTML = fleet.operators.map(o => {
     const n = fleet.tails.filter(t => t.op === o.id && ($('#showLow').checked || t.confidence !== 'low'));
     const air = n.filter(t => status(t).kind === 'air').length;
-    return `<span class="chip ${off.has(o.id) ? 'off' : ''}" data-op="${esc(o.id)}" title="${esc(o.certName || '')} · base ${esc(o.base)}"><span class="dot" style="background:${esc(o.color)}"></span>${esc(o.name)} <b>${n.length}</b>${air ? ` <span style="color:#6ee7b7">${air} up</span>` : ''}</span>`;
+    return `<span class="chip ${off.has(o.id) ? 'off' : ''}" data-op="${esc(o.id)}" title="${esc(o.certName || '')} · base ${esc(o.base)}"><span class="dot" style="background:${esc(o.color)}"></span><span class="${air ? 'opfly' : ''}">${esc(o.name)}</span> <b>${n.length}</b>${air ? ` <span style="color:#6ee7b7">${air} up</span>` : ''}</span>`;
   }).join('') + `<span class="chip" data-op="__all">All</span><span class="chip" data-op="__none">None</span>`;
 }
 $('#chips').addEventListener('click', e => {
@@ -166,7 +166,7 @@ function renderActive() {
       <td title="${esc(s.origin ? apName(s.origin) + ' · ' + (HOW[s.origin.how] || '') : 'Takeoff not observed')}">${esc(apCode(s.origin) || '—')}</td>
       <td class="num" title="${s.origin ? 'Took off ' + esc(fmtTime(s.origin.ts)) : ''}">${s.origin ? (s.origin.inferred ? '~' : '') + dur(nowS() - s.origin.ts) : '—'}</td></tr>`;
   }).join('');
-  $('#activeEmpty').textContent = rows.length ? 'Tap a row to fly the map to it. "~" = takeoff time inferred (first heard already airborne). Red operator = Lifeguard/medevac.' : 'No tracked tails are airborne right now.';
+  $('#activeEmpty').textContent = rows.length ? 'Tap a row to fly the map to it. "~" = takeoff time inferred (first heard already airborne). Red operator = has a plane flying; ✚ = Lifeguard/medevac.' : 'No tracked tails are airborne right now.';
 }
 $('#activeTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr'); if (r) select(r.dataset.tail, true); });
 
@@ -182,7 +182,7 @@ function renderLanded() {
       <td>${esc(fmtTime(e.ts))}<span class="sub">${ago(nowS() - e.ts)}${e.inferred ? ` · <span class="inf" title="${esc(HOW[e.how] || 'inferred')}">inferred</span>` : ''}</span></td>
       <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td></tr>`;
   }).join('') || '<tr><td colspan="6" class="muted">No landings recorded yet.</td></tr>';
-  $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane. Red operator = Lifeguard/medevac flight.` : '';
+  $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane. ✚ = Lifeguard/medevac flight.` : '';
 }
 $('#landedTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr[data-tail]'); if (r) select(r.dataset.tail, true); });
 
@@ -309,8 +309,8 @@ function initMap() {
   if (typeof maplibregl === 'undefined') { $('#map').innerHTML = '<p class="small pad">Map failed to load — the table and lists still work.</p>'; return; }
   map = new maplibregl.Map({container: 'map', style: 'https://tiles.openfreemap.org/styles/liberty', center: [-88, 34], zoom: 3.4, attributionControl: {compact: true}});
   map.addControl(new maplibregl.NavigationControl({showCompass: false}), 'top-left');
-  const lgd = document.createElement('div'); lgd.className = 'maplegend'; lgd.title = 'Flagged when the transponder reports lifeguard status or the callsign carries a lifeguard marker';
-  lgd.innerHTML = '<span class="dot" style="background:#ef4444"></span> Red = Lifeguard/medevac'; $('#map').appendChild(lgd);
+  const lgd = document.createElement('div'); lgd.className = 'maplegend'; lgd.title = 'Red operator name = at least one of its planes is airborne now. ✚ (and a red plane icon) = Lifeguard/medevac: transponder lifeguard status or a lifeguard callsign marker';
+  lgd.innerHTML = '<span style="color:#ef4444;font-weight:800">Red operator</span> = has a plane flying; <span style="color:#ef4444;font-weight:800">✚</span> = Lifeguard/medevac'; $('#map').appendChild(lgd);
   map.on('load', () => {
     map.addImage('plane', planeIcon(), {sdf: true});
     map.addSource('planes', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
