@@ -331,7 +331,7 @@ function initMap() {
 async function refresh() {
   try {
     const r = await fetch('api/state', {cache: 'no-store'}); if (!r.ok) throw new Error(r.status);
-    try { const rl = await fetch('api/events?recent=20', {cache: 'no-store'}); if (rl.ok) recentLanded = (await rl.json()).events || []; } catch {}
+    try { const rl = await fetch('api/events?recent=24', {cache: 'no-store'}); if (rl.ok) recentLanded = (await rl.json()).events || []; } catch {}
     st = await r.json(); fetchedAt = Date.now(); fetchFailed = false; clockSkew = st.now - Date.now() / 1000;
     render(); $('#waking').classList.add('hide');
   } catch (e) { fetchFailed = true; renderFresh(); $('#summary').textContent = 'Offline — showing last data'; }

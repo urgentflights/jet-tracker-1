@@ -385,7 +385,7 @@ class H(SimpleHTTPRequestHandler):
             return s.send_json({'now': time.time(), 'pollSeconds': POLL_S, 'lastPoll': state['lastPoll'], 'lastSuccess': state.get('lastSuccess'),
                                 'source': state['lastSource'], 'error': state['lastError'], 'health': h, 'planes': planes})
         if path == '/api/events' and q.get('recent'):
-            n = max(1, min(int((q.get('recent') or ['20'])[0]), 200))
+            n = max(1, min(int((q.get('recent') or ['24'])[0]), 200))
             with lock:
                 evs = sorted(events, key=lambda e: e['ts'])
                 lands = [e for e in evs if e['kind'] == 'landing'][-n:][::-1]
