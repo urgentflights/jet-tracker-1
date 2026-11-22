@@ -36,6 +36,17 @@ Live map + cards for the Part 135 fleets you work with, grouped and colour-coded
 - Coverage gaps mean some small-field landings are missed or timed late; tails never heard since tracking started
   show "never seen yet".
 
+## Lifeguard / medevac highlighting
+An aircraft is flagged `lifeguard: true` (with `lifeguardReason`) in `/api/state` when, on the current ADS-B record:
+1. the transponder's emergency/priority status is `lifeguard` (readsb `emergency` field from adsb.fi / adsb.lol), or
+2. the callsign (trimmed, upper-case) starts with `LIFEGUARD` or `LIFEGRD`, or
+3. the callsign is exactly its own registered tail with an "L" lifeguard marker: tail + `L` (N123AB → N123ABL, only if
+   the tail doesn't already end in L) or `L` + tail without the N (N123AB → L123AB).
+Nothing looser is used (no "contains L", no operator ICAO prefixes) to avoid false positives. Once seen during a flight
+the flag sticks until landing, and that flight's takeoff/landing events carry `lifeguard: true`. Most medevac crews
+never set the status, so some lifeguard flights won't be flagged. UI: operator name in bold red (Active now, Recently
+landed, map popup) and a red map marker/trail, with a "Red = Lifeguard/medevac" legend on the map.
+
 ## History storage
 All configured backends are written in parallel by a background thread; if one is down the app keeps running from
 memory and retries with backoff, then merges and re-syncs when it is back.

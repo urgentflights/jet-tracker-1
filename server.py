@@ -125,15 +125,35 @@ def num(v): return v if isinstance(v, (int, float)) and not isinstance(v, bool) 
 def ap_brief(ap):
     return {k: ap[k] for k in ('code', 'iata', 'name', 'city', 'region', 'country', 'distNm', 'lat', 'lon') if k in ap} if ap else None
 
+def lifeguard_reason(a, tail):
+    """Medevac / lifeguard detection (conservative, see README):
+    1. ADS-B emergency/priority status == 'lifeguard' (readsb 'emergency' field), set by the crew on the transponder.
+    2. Callsign (ADS-B 'flight', trimmed, upper-case) starts with 'LIFEGUARD' or 'LIFEGRD'.
+    3. Callsign is exactly this aircraft's registered tail with an 'L' lifeguard marker: tail + 'L' (N123AB -> N123ABL,
+       only if the tail itself does not already end in L) or 'L' + tail without the N (N123AB -> L123AB).
+    Callsigns that merely contain an L, and operator ICAO prefixes, are deliberately NOT used (too many false positives)."""
+    if str(a.get('emergency') or '').lower() == 'lifeguard': return 'ADS-B status: lifeguard'
+    cs = (a.get('flight') or '').strip().upper().replace(' ', '')
+    if not cs: return None
+    if cs.startswith('LIFEGUARD') or cs.startswith('LIFEGRD'): return f'callsign {cs}'
+    t = (tail or '').upper()
+    if t:
+        if not t.endswith('L') and cs == t + 'L': return f'callsign {cs} (tail + L)'
+        if t.startswith('N') and len(t) > 2 and cs == 'L' + t[1:]: return f'callsign {cs} (L + tail)'
+    return None
+
 def add_event(p, kind, ts, ap, how, inferred, new_events):
+    if kind == 'takeoff': p['_flightLg'] = p.get('_lgNow')       # a new flight starts: lifeguard only if seen now
+    lg = p.get('_flightLg') or (p.get('_lgNow') if kind == 'landing' else None)
     e = {'hex': p['hex'], 'tail': p.get('tail'), 'kind': kind, 'ts': round(float(ts), 3), 'ap': ap_brief(ap),
          'lat': p.get('lat'), 'lon': p.get('lon'), 'altFt': p.get('altFt'), 'how': how, 'inferred': bool(inferred)}
+    if lg: e['lifeguard'] = True; e['lifeguardReason'] = lg
     k = (e['hex'], kind, e['ts'])
     if k in event_keys or not event_ok(e): return e
     event_keys.add(k); events.append(e); new_events.append(e)
     if len(events) > EVENTS_MEM: del events[:len(events) - EVENTS_MEM]
-    info = dict(ap_brief(ap) or {}, ts=e['ts'], how=how, inferred=bool(inferred))
-    if kind == 'landing': p['lastLanding'] = info
+    info = dict(ap_brief(ap) or {}, ts=e['ts'], how=how, inferred=bool(inferred), lifeguard=bool(lg))
+    if kind == 'landing': p['lastLanding'] = info; p['_flightLg'] = None
     else: p['lastTakeoff'] = info; p['from'] = info
     log('event', kind, p.get('tail'), (ap or {}).get('code'), how, time.strftime('%H:%M:%S', time.localtime(ts)))
     return e
@@ -173,6 +193,7 @@ def process_sample(p, a, src, now, new_events, deleted):
               'vsFpm': num(a.get('baro_rate')) if num(a.get('baro_rate')) is not None else num(a.get('geom_rate')),
               'callsign': (a.get('flight') or '').strip() or None, 'squawk': a.get('squawk'), 'type': a.get('t') or p.get('type'), 'source': src})
     p.setdefault('firstSeen', ts)
+    p['_lgNow'] = lifeguard_reason(a, p.get('tail'))
     low = ground or (alt is not None and alt < 4000)
     ap_close = nearest_airport(a['lat'], a['lon'], 6, 1) if low else None
     p['near'] = ap_close or nearest_airport(a['lat'], a['lon'], 60, 2)
@@ -218,6 +239,9 @@ def process_sample(p, a, src, now, new_events, deleted):
             p['phase'] = 'air'
         else:
             p['phase'] = 'air'
+    if p['_lgNow'] and not ground: p['_flightLg'] = p['_lgNow']   # sticky for the rest of this flight
+    lg = p['_lgNow'] or (None if ground else p.get('_flightLg'))
+    p['lifeguard'] = bool(lg); p['lifeguardReason'] = lg
     tr = p.get('trail') or []
     if ground: tr = []
     else:

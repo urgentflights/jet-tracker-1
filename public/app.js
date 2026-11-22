@@ -146,6 +146,8 @@ function hookSort(tbl, name, key) {
 }
 hookSort($('#activeTbl'), 'active', 'sortA'); hookSort($('#fleetTbl'), 'fleet', 'sortF');
 const opName = t => opById[t.op]?.name || t.op;
+const LG_RED = '#ef4444';
+const opLg = (t, lg, why) => lg ? `<span class="lg" title="Lifeguard / medevac${why ? ' · ' + esc(why) : ''}">${esc(opName(t))} ✚</span>` : esc(opName(t));
 const opDot = t => `<span class="dot" style="background:${esc(opById[t.op]?.color || '#888')}"></span>`;
 const typeOf = t => t.model || st.planes[t.tail]?.type || '';
 
@@ -158,13 +160,13 @@ function renderActive() {
   $('#activeTbl tbody').innerHTML = rows.map(({t, s}) => {
     const p = s.p, vs = p.vsFpm > 500 ? '↑' : p.vsFpm < -500 ? '↓' : '';
     return `<tr data-tail="${esc(t.tail)}" class="${selected === t.tail ? 'sel' : ''}">
-      <td class="b">${opDot(t)}${esc(t.tail)}</td><td>${esc(opName(t))}</td><td class="hm">${esc(typeOf(t))}</td>
+      <td class="b">${opDot(t)}${esc(t.tail)}</td><td>${opLg(t, p.lifeguard, p.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
       <td class="num">${p.altFt == null ? '—' : p.altFt >= 18000 ? 'FL' + Math.round(p.altFt / 100) : p.altFt.toLocaleString()}${vs}</td><td class="num">${p.gsKt != null ? Math.round(p.gsKt) : '—'}</td>
       <td class="num">${p.track != null ? Math.round(p.track) + '°' : '—'}</td>
       <td title="${esc(s.origin ? apName(s.origin) + ' · ' + (HOW[s.origin.how] || '') : 'Takeoff not observed')}">${esc(apCode(s.origin) || '—')}</td>
       <td class="num" title="${s.origin ? 'Took off ' + esc(fmtTime(s.origin.ts)) : ''}">${s.origin ? (s.origin.inferred ? '~' : '') + dur(nowS() - s.origin.ts) : '—'}</td></tr>`;
   }).join('');
-  $('#activeEmpty').textContent = rows.length ? 'Tap a row to fly the map to it. "~" = takeoff time inferred (first heard already airborne).' : 'No tracked tails are airborne right now.';
+  $('#activeEmpty').textContent = rows.length ? 'Tap a row to fly the map to it. "~" = takeoff time inferred (first heard already airborne). Red operator = Lifeguard/medevac.' : 'No tracked tails are airborne right now.';
 }
 $('#activeTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr'); if (r) select(r.dataset.tail, true); });
 
@@ -174,13 +176,13 @@ function renderLanded() {
   tb.innerHTML = recentLanded.map(e => {
     const t = byTail[e.tail] || {tail: e.tail, op: ''}, a = e.ap, o = e.origin;
     return `<tr data-tail="${esc(e.tail)}" class="${selected === e.tail ? 'sel' : ''}">
-      <td class="b">${opDot(t)}${esc(e.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td>
-      <td class="hm2">${esc(opName(t))}</td><td class="hm">${esc(typeOf(t))}</td>
+      <td class="b">${opDot(t)}${esc(e.tail)}<span class="sub mob">${opLg(t, e.lifeguard, e.lifeguardReason)} · ${esc(typeOf(t))}</span></td>
+      <td class="hm2">${opLg(t, e.lifeguard, e.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
       <td title="${esc(apName(a) || '')}"><b>${esc(apCode(a) || '?')}</b>${a?.city ? `<span class="sub">${esc(a.city)}${a.region && a.country === 'US' ? ', ' + esc(a.region) : ''}</span>` : ''}</td>
       <td>${esc(fmtTime(e.ts))}<span class="sub">${ago(nowS() - e.ts)}${e.inferred ? ` · <span class="inf" title="${esc(HOW[e.how] || 'inferred')}">inferred</span>` : ''}</span></td>
       <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td></tr>`;
   }).join('') || '<tr><td colspan="6" class="muted">No landings recorded yet.</td></tr>';
-  $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane.` : '';
+  $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane. Red operator = Lifeguard/medevac flight.` : '';
 }
 $('#landedTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr[data-tail]'); if (r) select(r.dataset.tail, true); });
 
@@ -232,8 +234,9 @@ function popupHtml(tail) {
   const t = fleet.tails.find(x => x.tail === tail); if (!t) return '';
   const s = status(t), o = opById[t.op] || {}, p = s.p;
   const rows = [];
-  rows.push(`<div class="pp-h"><b>${esc(t.tail)}</b> <span class="muted">${esc(o.name || '')}</span></div><div class="muted">${esc(typeOf(t))}${t.year ? ' · ' + esc(t.year) : ''}</div>`);
+  rows.push(`<div class="pp-h"><b>${esc(t.tail)}</b> ${p?.lifeguard ? opLg(t, true, p.lifeguardReason) : `<span class="muted">${esc(o.name || '')}</span>`}</div><div class="muted">${esc(typeOf(t))}${t.year ? ' · ' + esc(t.year) : ''}</div>`);
   rows.push(`<div><span class="badge ${s.kind}">${s.label}</span>${esc(s.line || '')}</div>`);
+  if (p?.lifeguard) rows.push(`<div class="lg">✚ Lifeguard / medevac <span class="muted">(${esc(p.lifeguardReason || '')})</span></div>`);
   if (s.kind === 'air' && s.origin) rows.push(`<div>🛫 From <b>${esc(apCode(s.origin))}</b> · ${esc(fmtTime(s.origin.ts))} · up ${s.origin.inferred ? '~' : ''}${dur(nowS() - s.origin.ts)}</div>`);
   if (s.landed) rows.push(`<div>🛬 Landed <b>${esc(apCode(s.landed) || '?')}</b> · ${esc(fmtTime(s.landed.ts))} (${ago(nowS() - s.landed.ts)})${s.landed.inferred ? `<br><span class="muted">${esc(HOW[s.landed.how] || 'inferred')}</span>` : ''}</div>`);
   else rows.push(`<div class="muted">🛬 No landing recorded yet</div>`);
@@ -263,9 +266,9 @@ function geo(list) {
   for (const {t, s} of list) {
     const p = s.p; if (!p) continue; const o = opById[t.op] || {color: '#888'};
     pts.push({type: 'Feature', geometry: {type: 'Point', coordinates: [p.lon, p.lat]},
-      properties: {tail: t.tail, color: o.color, rot: p.track || 0, air: s.kind === 'air' ? 1 : 0, stale: s.kind === 'stale' ? 1 : 0, sel: selected === t.tail ? 1 : 0}});
+      properties: {tail: t.tail, color: p.lifeguard ? LG_RED : o.color, lg: p.lifeguard ? 1 : 0, rot: p.track || 0, air: s.kind === 'air' ? 1 : 0, stale: s.kind === 'stale' ? 1 : 0, sel: selected === t.tail ? 1 : 0}});
     if (s.kind === 'air' && p.trail?.length > 1)
-      trails.push({type: 'Feature', geometry: {type: 'LineString', coordinates: p.trail.map(x => [x[1], x[0]]).concat([[p.lon, p.lat]])}, properties: {color: o.color}});
+      trails.push({type: 'Feature', geometry: {type: 'LineString', coordinates: p.trail.map(x => [x[1], x[0]]).concat([[p.lon, p.lat]])}, properties: {color: p.lifeguard ? LG_RED : o.color}});
   }
   return {pts: {type: 'FeatureCollection', features: pts}, trails: {type: 'FeatureCollection', features: trails}};
 }
@@ -306,6 +309,8 @@ function initMap() {
   if (typeof maplibregl === 'undefined') { $('#map').innerHTML = '<p class="small pad">Map failed to load — the table and lists still work.</p>'; return; }
   map = new maplibregl.Map({container: 'map', style: 'https://tiles.openfreemap.org/styles/liberty', center: [-88, 34], zoom: 3.4, attributionControl: {compact: true}});
   map.addControl(new maplibregl.NavigationControl({showCompass: false}), 'top-left');
+  const lgd = document.createElement('div'); lgd.className = 'maplegend'; lgd.title = 'Flagged when the transponder reports lifeguard status or the callsign carries a lifeguard marker';
+  lgd.innerHTML = '<span class="dot" style="background:#ef4444"></span> Red = Lifeguard/medevac'; $('#map').appendChild(lgd);
   map.on('load', () => {
     map.addImage('plane', planeIcon(), {sdf: true});
     map.addSource('planes', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
