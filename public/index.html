@@ -12,9 +12,9 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <script src="vendor/maplibre-gl.js" defer></script>
-<script src="app.js?v=5" defer></script>
+<script src="app.js?v=6" defer></script>
 </head>
 <body class="view-map">
 <header>
@@ -37,6 +37,11 @@
             <th data-k="gs" class="num" title="ground speed, knots">GS</th><th data-k="hdg" class="num">Hdg</th><th data-k="from">From</th><th data-k="up" class="num">Up</th>
           </tr></thead><tbody></tbody></table></div>
         <p class="small pad" id="activeEmpty"></p>
+        <h3 class="sect">Recently landed <span class="muted">· last 20</span></h3>
+        <div class="tblwrap"><table class="tbl" id="landedTbl">
+          <thead><tr><th>Tail</th><th class="hm2">Operator</th><th class="hm">Type</th><th>Landed</th><th>Time</th><th>From</th></tr></thead>
+          <tbody></tbody></table></div>
+        <p class="small pad" id="landedNote"></p>
       </div>
       <div id="tab-cards" class="hide">
         <div class="controls">

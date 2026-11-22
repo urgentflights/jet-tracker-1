@@ -77,3 +77,7 @@ footer{padding:10px 12px 30px;margin-top:auto}
 #activeTbl{font-size:12.5px}#activeTbl td,#activeTbl th{padding:7px 6px}
 .tbl .sub.mob{display:none;font-weight:400}
 @media (max-width:800px){.tbl .hm2{display:none}.tbl .sub.mob{display:block}#fleetTbl td{white-space:normal;min-width:84px}#fleetTbl td:first-child{min-width:120px}}
+.sect{font-size:14px;margin:14px 10px 6px;color:#e7ecf5}.sect .muted{font-weight:400;font-size:12px}
+.inf{color:#fbbf24}#landedTbl{font-size:12.5px}#landedTbl td,#landedTbl th{padding:7px 6px}
+@media (max-width:800px){#landedTbl td{white-space:normal}#landedTbl td:first-child{min-width:110px}}
+.sect{scroll-margin-top:50px}

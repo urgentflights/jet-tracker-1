@@ -384,6 +384,22 @@ class H(SimpleHTTPRequestHandler):
                 h = health()
             return s.send_json({'now': time.time(), 'pollSeconds': POLL_S, 'lastPoll': state['lastPoll'], 'lastSuccess': state.get('lastSuccess'),
                                 'source': state['lastSource'], 'error': state['lastError'], 'health': h, 'planes': planes})
+        if path == '/api/events' and q.get('recent'):
+            n = max(1, min(int((q.get('recent') or ['20'])[0]), 200))
+            with lock:
+                evs = sorted(events, key=lambda e: e['ts'])
+                lands = [e for e in evs if e['kind'] == 'landing'][-n:][::-1]
+                out = []
+                for e in lands:
+                    # origin = this tail's latest takeoff before the landing (within 18 h) with no landing in between
+                    org = None
+                    for x in reversed(evs):
+                        if x['hex'] != e['hex'] or x['ts'] >= e['ts']: continue
+                        if e['ts'] - x['ts'] > 18 * 3600: break
+                        if x['kind'] == 'landing': break
+                        if x['kind'] == 'takeoff': org = x; break
+                    out.append(dict(e, origin={'ap': org['ap'], 'ts': org['ts'], 'inferred': org['inferred'], 'how': org['how']} if org else None))
+            return s.send_json({'events': out})
         if path == '/api/events':
             tail = (q.get('tail') or [''])[0].upper(); limit = min(int((q.get('limit') or ['50'])[0]), 5000)
             with lock: ev = [e for e in events if not tail or e.get('tail') == tail][-limit:]

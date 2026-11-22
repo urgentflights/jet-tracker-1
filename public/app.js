@@ -5,7 +5,7 @@ const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const LS = k => 'jt1.' + k;
 let fleet = {operators: [], tails: []}, st = {planes: {}}, opById = {}, map, selected = null, mapReady = false, popup = null;
-let fetchedAt = 0, fetchFailed = false, clockSkew = 0;
+let recentLanded = [], fetchedAt = 0, fetchFailed = false, clockSkew = 0;
 const off = new Set(JSON.parse(localStorage.getItem(LS('off')) || '[]'));
 $('#sort').value = localStorage.getItem(LS('sort')) || 'status';
 $('#showLow').checked = localStorage.getItem(LS('low')) === '1';
@@ -168,6 +168,22 @@ function renderActive() {
 }
 $('#activeTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr'); if (r) select(r.dataset.tail, true); });
 
+function renderLanded() {
+  const tb = $('#landedTbl tbody'); if (!tb) return;
+  const byTail = Object.fromEntries(fleet.tails.map(t => [t.tail, t]));
+  tb.innerHTML = recentLanded.map(e => {
+    const t = byTail[e.tail] || {tail: e.tail, op: ''}, a = e.ap, o = e.origin;
+    return `<tr data-tail="${esc(e.tail)}" class="${selected === e.tail ? 'sel' : ''}">
+      <td class="b">${opDot(t)}${esc(e.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td>
+      <td class="hm2">${esc(opName(t))}</td><td class="hm">${esc(typeOf(t))}</td>
+      <td title="${esc(apName(a) || '')}"><b>${esc(apCode(a) || '?')}</b>${a?.city ? `<span class="sub">${esc(a.city)}${a.region && a.country === 'US' ? ', ' + esc(a.region) : ''}</span>` : ''}</td>
+      <td>${esc(fmtTime(e.ts))}<span class="sub">${ago(nowS() - e.ts)}${e.inferred ? ` · <span class="inf" title="${esc(HOW[e.how] || 'inferred')}">inferred</span>` : ''}</span></td>
+      <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="muted">No landings recorded yet.</td></tr>';
+  $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane.` : '';
+}
+$('#landedTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr[data-tail]'); if (r) select(r.dataset.tail, true); });
+
 function fillFilters() {
   const fop = $('#fop'), ft = $('#ftype'), cur = [fop.value, ft.value];
   fop.innerHTML = '<option value="">All operators</option>' + fleet.operators.map(o => `<option value="${esc(o.id)}">${esc(o.name)}</option>`).join('');
@@ -271,7 +287,7 @@ function renderSummary(list) {
 function render() {
   const list = visibleTails();
   $('#nAll').textContent = list.length;
-  if (document.body.classList.contains('view-map')) { renderChips(); renderCards(list); renderMap(list); renderActive(); }
+  if (document.body.classList.contains('view-map')) { renderChips(); renderCards(list); renderMap(list); renderActive(); renderLanded(); }
   renderSummary(list); renderFleetTable(); renderFresh();
 }
 ['input', 'change'].forEach(ev => { $('#q').addEventListener(ev, render); });
@@ -315,6 +331,7 @@ function initMap() {
 async function refresh() {
   try {
     const r = await fetch('api/state', {cache: 'no-store'}); if (!r.ok) throw new Error(r.status);
+    try { const rl = await fetch('api/events?recent=20', {cache: 'no-store'}); if (rl.ok) recentLanded = (await rl.json()).events || []; } catch {}
     st = await r.json(); fetchedAt = Date.now(); fetchFailed = false; clockSkew = st.now - Date.now() / 1000;
     render(); $('#waking').classList.add('hide');
   } catch (e) { fetchFailed = true; renderFresh(); $('#summary').textContent = 'Offline — showing last data'; }
