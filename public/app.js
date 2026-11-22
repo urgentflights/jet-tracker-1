@@ -343,6 +343,7 @@ async function refresh() {
 }
 async function loadFleet() {
   const f = await (await fetch('api/fleet', {cache: 'no-store'})).json();
+  f.operators = [...f.operators].sort((x, y) => (x.name || x.id).localeCompare(y.name || y.id, undefined, {sensitivity: 'base'}));  // A–Z everywhere
   fleet = f; opById = {}; fleet.operators.forEach(o => opById[o.id] = o); fillFilters();
 }
 async function boot() {
