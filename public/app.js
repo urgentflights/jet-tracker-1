@@ -160,10 +160,11 @@ function renderActive() {
   $('#activeTbl tbody').innerHTML = rows.map(({t, s}) => {
     const p = s.p, vs = p.vsFpm > 500 ? '↑' : p.vsFpm < -500 ? '↓' : '';
     return `<tr data-tail="${esc(t.tail)}" class="${selected === t.tail ? 'sel' : ''}">
+      <td class="b" title="${esc(s.origin ? apName(s.origin) + ' · ' + (HOW[s.origin.how] || '') : 'Takeoff not observed')}">${esc(apCode(s.origin) || '—')}</td>
       <td class="b">${opDot(t)}${esc(t.tail)}</td><td>${opLg(t, p.lifeguard, p.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
-      <td class="num">${p.altFt == null ? '—' : p.altFt >= 18000 ? 'FL' + Math.round(p.altFt / 100) : p.altFt.toLocaleString()}${vs}</td><td class="num">${p.gsKt != null ? Math.round(p.gsKt) : '—'}</td>
+      <td class="num">${p.gsKt != null ? Math.round(p.gsKt) : '—'}</td>
       <td class="num">${p.track != null ? Math.round(p.track) + '°' : '—'}</td>
-      <td title="${esc(s.origin ? apName(s.origin) + ' · ' + (HOW[s.origin.how] || '') : 'Takeoff not observed')}">${esc(apCode(s.origin) || '—')}</td>
+      <td class="num">${p.altFt == null ? '—' : p.altFt >= 18000 ? 'FL' + Math.round(p.altFt / 100) : p.altFt.toLocaleString()}${vs}</td>
       <td class="num" title="${s.origin ? 'Took off ' + esc(fmtTime(s.origin.ts)) : ''}">${s.origin ? (s.origin.inferred ? '~' : '') + dur(nowS() - s.origin.ts) : '—'}</td></tr>`;
   }).join('');
   $('#activeEmpty').textContent = rows.length ? 'Tap a row to fly the map to it. "~" = takeoff time inferred (first heard already airborne). Red operator = has a plane flying; ✚ = Lifeguard/medevac.' : 'No tracked tails are airborne right now.';
@@ -176,11 +177,12 @@ function renderLanded() {
   tb.innerHTML = recentLanded.map(e => {
     const t = byTail[e.tail] || {tail: e.tail, op: ''}, a = e.ap, o = e.origin;
     return `<tr data-tail="${esc(e.tail)}" class="${selected === e.tail ? 'sel' : ''}">
+      <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td>
       <td class="b">${opDot(t)}${esc(e.tail)}<span class="sub mob">${opLg(t, e.lifeguard, e.lifeguardReason)} · ${esc(typeOf(t))}</span></td>
       <td class="hm2">${opLg(t, e.lifeguard, e.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
       <td title="${esc(apName(a) || '')}"><b>${esc(apCode(a) || '?')}</b>${a?.city ? `<span class="sub">${esc(a.city)}${a.region && a.country === 'US' ? ', ' + esc(a.region) : ''}</span>` : ''}</td>
       <td>${esc(fmtTime(e.ts))}<span class="sub">${ago(nowS() - e.ts)}${e.inferred ? ` · <span class="inf" title="${esc(HOW[e.how] || 'inferred')}">inferred</span>` : ''}</span></td>
-      <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td></tr>`;
+      </tr>`;
   }).join('') || '<tr><td colspan="6" class="muted">No landings recorded yet.</td></tr>';
   $('#landedNote').textContent = recentLanded.length ? `Newest first, whole fleet. Times in your local zone (${TZ}). "Inferred" = signal lost low near that airport. Tap a row to see the plane. ✚ = Lifeguard/medevac flight.` : '';
 }
