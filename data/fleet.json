@@ -18,6 +18,14 @@
    "certName": "M & N Equipment, LLC dba M&N Aviation"
   },
   {
+   "id": "sea",
+   "name": "SEA / M&N",
+   "base": "VNY",
+   "color": "#e6beff",
+   "cert": "MY5A",
+   "certName": "M & N Equipment, LLC dba M&N Aviation (SEA Aviation Holdings LLC)"
+  },
+  {
    "id": "hopajet",
    "name": "Hop-A-Jet",
    "base": "FXE",
@@ -208,12 +216,13 @@
   {
    "tail": "N212AG",
    "hex": "a1c0f7",
-   "op": "mn",
+   "op": "sea",
    "model": "Hawker 800XP",
    "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
    "year": "2007",
    "confidence": "high",
-   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry",
+   "note": "User asked to show these as SEA / M&N. Owned by Sea Aviation Holdings LLC; flown on M&N Aviation's MY5A certificate. Operating base Van Nuys (VNY) per Thornton Aviation / Sea Aviation materials. Delaware registry address is the LLC address."
   },
   {
    "tail": "N361CA",
@@ -278,12 +287,13 @@
   {
    "tail": "N817SD",
    "hex": "ab24f1",
-   "op": "mn",
+   "op": "sea",
    "model": "Hawker 800XP",
    "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
    "year": "2005",
    "confidence": "high",
-   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry"
+   "source": "FAA Part 135 operator/aircraft list (MY5A, Nov 2026) + FAA registry",
+   "note": "User asked to show these as SEA / M&N. Owned by Sea Aviation Holdings LLC; flown on M&N Aviation's MY5A certificate. Operating base Van Nuys (VNY) per Thornton Aviation / Sea Aviation materials. Delaware registry address is the LLC address."
   },
   {
    "tail": "N818LX",
