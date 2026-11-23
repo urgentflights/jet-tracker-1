@@ -23,7 +23,25 @@ Live map + cards for the Part 135 fleets you work with, grouped and colour-coded
 - `data/fleet.json` – **the fleet list. Edit this to add operators/tails.**
 - `data/state.json` – committed seed of last-known positions (read at startup, never written by the server).
 
+## Accounts (sign-in required)
+Everything except `/healthz`, `/login`, `/signup` and the app icons needs a signed-in, active account
+(`auth.py`, pages in `auth_pages.py`). Logged-out API calls get HTTP 401; pages redirect to `/login`.
+- Anyone can create an account at `/signup` (name, email, password ≥ 8 chars). Accounts are active at once unless
+  the admin turns on **New signups need approval** on `/admin`; then they wait as *pending* until approved.
+- Admin: `ADMIN_EMAIL` (default sim@paraflight.aero). That email can only sign up with the `ADMIN_SETUP_CODE` env
+  var (link "Setting up the site admin account?" on the sign-up page); the account gets role admin.
+  `/admin` lists users (name, email, signed up, last sign-in, status) with Approve / Restrict / Restore / Delete.
+  Restrict and Delete sign the person out everywhere. The admin can't restrict or delete their own account.
+- Passwords: scrypt (n=2^14, r=8, p=1) + per-user salt. Sessions: random token in an HttpOnly, Secure,
+  SameSite=Lax cookie signed with `SESSION_SECRET` (only its SHA-256 is stored); 30 days with "keep me signed
+  in", else 12 h. POSTs must be same-origin (Origin/Referer check). Sign-in is limited to 10 tries per email and
+  20 per IP per 15 min; sign-up to 10 per IP per hour.
+- Storage: table `jt_auth` in Postgres + hashes `jt:auth:*` in Key Value + `data/runtime/auth.json`; newest
+  record wins, deletions are kept as tombstones.
+- The service worker never caches pages, `/api/*` or auth pages; signing out also clears the browser cache.
+
 ## API
+- `/api/me` – the signed-in user
 - `/api/fleet`, `/api/state` (planes keyed by tail, incl. `lastLanding`, `lastTakeoff`, `phase`, `health`)
 - `/api/events?tail=N123AB&limit=50` – newest takeoff/landing events
 - `/api/events?recent=24` – the newest landings across the fleet (with matched origin)

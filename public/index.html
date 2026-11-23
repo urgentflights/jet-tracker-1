@@ -12,9 +12,9 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
-<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="style.css?v=15">
 <script src="vendor/maplibre-gl.js" defer></script>
-<script src="app.js?v=14" defer></script>
+<script src="app.js?v=15" defer></script>
 </head>
 <body class="view-map">
 <header>
@@ -22,6 +22,10 @@
   <div class="hright">
     <span id="fresh" class="fresh" title="Age of the newest ADS-B data on the server">Data — · —</span>
     <div class="seg" id="viewseg"><button data-view="map" class="on">Map</button><button data-view="table">Table</button><button data-view="report">Report</button><button data-view="avail"><span class="lf">Availability</span><span class="ls">Avail</span></button></div>
+    <div class="user hide" id="user"><button id="uBtn" class="ubtn" title="Account" aria-label="Account">?</button>
+      <div class="umenu hide" id="uMenu"><div class="uwho"><b id="uName"></b><span id="uEmail"></span></div>
+        <a id="uAdmin" class="hide" href="/admin">Admin · manage users</a>
+        <form method="post" action="/logout"><button type="submit">Sign out</button></form></div></div>
   </div>
 </header>
 <div class="subbar"><span id="summary">Loading…</span></div>

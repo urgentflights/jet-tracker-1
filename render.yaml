@@ -17,6 +17,10 @@ services:
         fromDatabase:
           name: jet-tracker-1-db
           property: connectionString
+      - key: SESSION_SECRET      # secret, set on the service (not in git)
+        sync: false
+      - key: ADMIN_SETUP_CODE    # one-time code the admin enters when creating the admin account
+        sync: false
 databases:
   - name: jet-tracker-1-db
     plan: free

@@ -6,6 +6,8 @@ and serves the static app in public/.  Run: python3 server.py [port]"""
 import json, math, os, re, sys, threading, time, urllib.request, urllib.parse, gzip, traceback
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from store import Store
+import http.cookies
+import auth as A, auth_pages as P
 import datetime, csv, io
 try:
     from zoneinfo import ZoneInfo; TZ_NY = ZoneInfo('America/New_York')
@@ -487,7 +489,7 @@ def health():
             'aircraftHeardLastPoll': state.get('lastCount'), 'trackedTails': len(fleet['tails']), 'polls': state['polls'],
             'pollErrors': state['pollErrors'], 'uptimeSec': round(now - state['started']), 'events': len(events),
             'sources': {n: {'fails': h['fails'], 'backoffSec': max(0, round(h['retryAt'] - now)), 'lastOkAgeSec': round(now - h['lastOk']) if h['lastOk'] else None, 'lastError': h['lastError']} for n, h in src_health.items()},
-            'storage': store.describe()}
+            'storage': store.describe(), 'authStorage': AUTH.health()}
 
 class H(SimpleHTTPRequestHandler):
     def __init__(s, *a, **k): super().__init__(*a, directory=PUB, **k)
@@ -496,14 +498,110 @@ class H(SimpleHTTPRequestHandler):
         b = json.dumps(obj, separators=(',', ':')).encode()
         s.send_response(code); s.send_header('Content-Type', 'application/json'); s.send_header('Cache-Control', 'no-store')
         for k, v in (extra or {}).items(): s.send_header(k, v)
-        s.send_header('Access-Control-Allow-Origin', '*'); s.send_header('Content-Length', str(len(b))); s.end_headers(); s.wfile.write(b)
+        if s.path.split('?')[0] == '/healthz': s.send_header('Access-Control-Allow-Origin', '*')
+        s.send_header('Content-Length', str(len(b))); s.end_headers(); s.wfile.write(b)
     def end_headers(s):
-        if not s.path.startswith('/api/') and s.path != '/healthz': s.send_header('Cache-Control', 'no-cache')
+        if not getattr(s, '_cc', False) and not s.path.startswith('/api/') and s.path != '/healthz': s.send_header('Cache-Control', 'private, no-cache')
+        s.send_header('X-Content-Type-Options', 'nosniff'); s.send_header('X-Frame-Options', 'DENY'); s.send_header('Referrer-Policy', 'same-origin')
         super().end_headers()
+    # ---- auth helpers
+    def cookie(s, name):
+        c = http.cookies.SimpleCookie()
+        try: c.load(s.headers.get('Cookie') or '')
+        except Exception: return None
+        return c[name].value if name in c else None
+    def user(s):
+        if not hasattr(s, '_user'): s._user = AUTH.session_user(s.cookie(A.COOKIE))
+        return s._user
+    def ip(s):
+        xff = [x.strip() for x in (s.headers.get('X-Forwarded-For') or '').split(',') if x.strip()]
+        return xff[-1] if xff else s.client_address[0]
+    def is_https(s): return s.headers.get('X-Forwarded-Proto', '').lower() == 'https' or bool(os.environ.get('RENDER'))
+    def cookie_hdr(s, val, max_age):
+        p = [f'{A.COOKIE}={val}', 'Path=/', 'HttpOnly', 'SameSite=Lax']
+        if s.is_https(): p.append('Secure')
+        if max_age is not None: p.append(f'Max-Age={int(max_age)}')
+        return '; '.join(p)
+    def send_html(s, html, code=200, headers=()):
+        b = html.encode(); s._cc = True
+        s.send_response(code); s.send_header('Content-Type', 'text/html; charset=utf-8'); s.send_header('Cache-Control', 'no-store')
+        for k, v in headers: s.send_header(k, v)
+        s.send_header('Content-Length', str(len(b))); s.end_headers(); s.wfile.write(b)
+    def redirect(s, loc, headers=()):
+        s._cc = True; s.send_response(303); s.send_header('Location', loc); s.send_header('Cache-Control', 'no-store')
+        for k, v in headers: s.send_header(k, v)
+        s.send_header('Content-Length', '0'); s.end_headers()
+    def same_origin(s):
+        o = s.headers.get('Origin') or s.headers.get('Referer') or ''
+        if not o or o == 'null': return False
+        return urllib.parse.urlparse(o).netloc.lower() == (s.headers.get('Host') or '').lower()
+    def body(s):
+        n = int(s.headers.get('Content-Length') or 0)
+        if n > MAX_FORM: raise ValueError('request too large')
+        return s.rfile.read(n) if n else b''
+    def form(s):
+        q = urllib.parse.parse_qs(s.body().decode('utf-8', 'replace'), keep_blank_values=True)
+        return {k: v[0] for k, v in q.items()}
     def do_HEAD(s):
         if s.path.split('?')[0] == '/healthz':
             s.send_response(200); s.send_header('Content-Length', '0'); s.end_headers(); return
+        if not s.user() and s.path.split('?')[0] not in PUBLIC_FILES:
+            s.send_response(401); s.send_header('Content-Length', '0'); s.end_headers(); return
         return super().do_HEAD()
+    def do_POST(s):
+        try: return s.post()
+        except (BrokenPipeError, ConnectionResetError): pass
+        except Exception as e:
+            log('http error', s.path, e); traceback.print_exc()
+            try: s.send_json({'error': 'server error'}, 500)
+            except Exception: pass
+    def post(s):
+        path = urllib.parse.urlparse(s.path).path
+        if not s.same_origin(): return s.send_json({'error': 'cross-site request blocked'}, 403)
+        if path == '/login':
+            f = s.form(); email = (f.get('email') or '').strip().lower(); nxt = safe_next(f.get('next'))
+            if AUTH.limited('login-ip:' + s.ip(), 20, 900) or AUTH.limited('login-em:' + email, 10, 900) or AUTH.limited('login-all', 300, 900):
+                return s.send_html(P.login_page('Too many sign-in attempts. Wait 15 minutes and try again.', email=email, nxt=nxt), 429)
+            u, err = AUTH.login(email, f.get('password') or '')
+            if err: return s.send_html(P.login_page(err, email=email, nxt=nxt), 401 if 'Wrong' in err else 403)
+            tok, age = AUTH.new_session(u['id'], f.get('remember') == '1')
+            log('login', u['id'])
+            return s.redirect(nxt, [('Set-Cookie', s.cookie_hdr(tok, age))])
+        if path == '/signup':
+            f = s.form(); email = (f.get('email') or '').strip().lower(); name = f.get('name') or ''
+            if AUTH.limited('signup-ip:' + s.ip(), 10, 3600) or AUTH.limited('signup-all', 100, 3600):
+                return s.send_html(P.signup_page('Too many sign-ups from here. Try again in an hour.', name, email), 429)
+            u, err = AUTH.signup(name, email, f.get('password') or '', f.get('code') or '')
+            if err: return s.send_html(P.signup_page(err, name, email, show_code=bool(f.get('code'))), 400)
+            if u['status'] != 'active':
+                return s.send_html(P.message_page('Thanks for signing up', 'Your account is waiting for the site admin to approve it. You can sign in once it is approved.'))
+            tok, age = AUTH.new_session(u['id'], f.get('remember') == '1')
+            return s.redirect('/', [('Set-Cookie', s.cookie_hdr(tok, age))])
+        if path == '/logout':
+            AUTH.end_session(s.cookie(A.COOKIE))
+            return s.redirect('/login?out=1', [('Set-Cookie', s.cookie_hdr('', 0)), ('Clear-Site-Data', '"cache"')])
+        u = s.user()
+        if not u: return s.send_json({'error': 'sign in required'}, 401)
+        if path.startswith('/api/admin/'):
+            if u['role'] != 'admin': return s.send_json({'error': 'admin only'}, 403)
+            if 'application/json' not in (s.headers.get('Content-Type') or ''): return s.send_json({'error': 'JSON required'}, 415)
+            try: d = json.loads(s.body() or b'{}')
+            except Exception: return s.send_json({'error': 'bad JSON'}, 400)
+            if path == '/api/admin/settings':
+                if 'requireApproval' in d: AUTH.set_setting('requireApproval', bool(d['requireApproval']))
+                return s.send_json({'ok': True, 'requireApproval': AUTH.setting('requireApproval', False)})
+            if path == '/api/admin/user':
+                uid, act = str(d.get('id') or ''), d.get('action')
+                if uid == u['id']: return s.send_json({'error': "you can't change your own account"}, 400)
+                t = AUTH.user(uid)
+                if not t: return s.send_json({'error': 'no such user'}, 404)
+                if act in ('approve', 'restore'): AUTH.set_status(uid, 'active')
+                elif act == 'restrict': AUTH.set_status(uid, 'restricted')
+                elif act == 'delete': AUTH.delete_user(uid)
+                else: return s.send_json({'error': 'unknown action'}, 400)
+                log('admin', u['id'], act, uid)
+                return s.send_json({'ok': True})
+        return s.send_json({'error': 'not found'}, 404)
     def do_GET(s):
         try: return s.route()
         except (BrokenPipeError, ConnectionResetError): pass
@@ -515,6 +613,26 @@ class H(SimpleHTTPRequestHandler):
         u = urllib.parse.urlparse(s.path); path = u.path; q = urllib.parse.parse_qs(u.query)
         if path == '/healthz':
             h = health(); return s.send_json(h, 503 if h['status'] == 'down' else 200)
+        if path == '/login':
+            if s.user(): return s.redirect(safe_next((q.get('next') or ['/'])[0]))
+            return s.send_html(P.login_page(msg='You are signed out.' if q.get('out') else '', nxt=safe_next((q.get('next') or ['/'])[0])))
+        if path == '/signup':
+            if s.user(): return s.redirect('/')
+            return s.send_html(P.signup_page())
+        if path == '/logout': return s.redirect('/login')
+        if path in PUBLIC_FILES: return super().do_GET()
+        u = s.user()
+        if not u:
+            if path.startswith('/api/'): return s.send_json({'error': 'sign in required'}, 401)
+            return s.redirect('/login' + ('?next=' + urllib.parse.quote(s.path) if path != '/' else ''))
+        if path == '/api/me': return s.send_json(A.public_user(u))
+        if path in ('/admin', '/admin/'):
+            if u['role'] != 'admin': return s.send_html(P.message_page('Admins only', 'This page is only for the site admin.'), 403)
+            return s.send_html(P.admin_page(u))
+        if path == '/api/admin/users':
+            if u['role'] != 'admin': return s.send_json({'error': 'admin only'}, 403)
+            return s.send_json({'me': u['id'], 'requireApproval': AUTH.setting('requireApproval', False),
+                                'users': [A.public_user(x) for x in AUTH.users()], 'storage': AUTH.health()})
         if path == '/api/fleet':
             return s.send_json({'operators': fleet['operators'], 'tails': fleet['tails']})
         if path == '/api/state':
@@ -561,6 +679,16 @@ class H(SimpleHTTPRequestHandler):
             return s.send_json(dump, extra={'Content-Disposition': 'attachment; filename="jet-tracker-1-history.json"'})
         return super().do_GET()
 
+# ---------------------------------------------------------------- accounts
+AUTH = A.Auth(os.path.join(DATA, 'runtime', 'auth.json'))
+PUBLIC_FILES = {'/icon-192.png', '/icon-512.png', '/manifest.webmanifest', '/sw.js', '/favicon.ico', '/robots.txt'}
+MAX_FORM = 16 * 1024
+
+def safe_next(n):
+    n = (n or '/').strip()
+    if not n.startswith('/') or n.startswith('//') or '\\' in n or n.startswith('/login') or n.startswith('/signup') or n.startswith('/logout'): return '/'
+    return n[:500]
+
 def keepalive():
     """Hit the public URL so Render's free instance does not idle out (skipped without RENDER_EXTERNAL_URL)."""
     base = (os.environ.get('RENDER_EXTERNAL_URL') or '').rstrip('/')
@@ -579,6 +707,7 @@ if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get('PORT', '8135'))
     seed_from_committed_state()
     store.start()
+    AUTH.start()
     try: load_fleet()
     except Exception as e: log('fleet load failed', e)
     if purge:

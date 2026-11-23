@@ -2,6 +2,13 @@
    Data: /api/fleet (operators + tails), /api/state (live + last-known + last landing/takeoff), /api/events. */
 (() => {
 const $ = s => document.querySelector(s);
+// every data call needs a signed-in user: if the session ended, go to the sign-in page
+const _fetch = window.fetch.bind(window);
+const fetch = async (...a) => {
+  const r = await _fetch(...a);
+  if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent(location.pathname + location.search); throw new Error('signed out'); }
+  return r;
+};
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const LS = k => 'jt1.' + k;
 let fleet = {operators: [], tails: []}, st = {planes: {}}, opById = {}, map, selected = null, mapReady = false, popup = null;
@@ -521,6 +528,20 @@ $('#hTbl tbody').addEventListener('click', e => {
 });
 $('#hDays').addEventListener('change', () => hist && openHistory(hist.tail));
 $('#hClose').addEventListener('click', () => { $('#hist').classList.add('hide'); document.body.classList.remove('hist-open'); hist = null; drawHistory(false); });
+
+// ---- signed-in user menu
+async function loadMe() {
+  try {
+    const me = await (await fetch('api/me', {cache: 'no-store'})).json();
+    $('#uBtn').textContent = (me.name || me.email || '?').trim().charAt(0).toUpperCase();
+    $('#uName').textContent = me.name; $('#uEmail').textContent = me.email;
+    $('#uAdmin').classList.toggle('hide', me.role !== 'admin');
+    $('#user').classList.remove('hide');
+  } catch {}
+}
+$('#uBtn').addEventListener('click', e => { e.stopPropagation(); $('#uMenu').classList.toggle('hide'); });
+document.addEventListener('click', e => { if (!e.target.closest('#user')) $('#uMenu').classList.add('hide'); });
+loadMe();
 
 boot();
 })();
