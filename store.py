@@ -168,9 +168,13 @@ class Store:
         try:
             b.connect(); planes, events = b.load()
             all_planes, all_events = s.on_load(planes, events, b.name)
+            # write the merged history back to this backend; if this backend brought data the others may lack
+            # (e.g. Key Value connecting after a new, empty Postgres), copy it to every backend so they converge
+            targets = s.backends if (events or planes) else [b]
             with s.plock:
-                pd = s.pending[b.name]; pd['planes'].update(all_planes)
-                for e in all_events: pd['ev'][KV.ekey(e)] = e
+                for t in targets:
+                    pd = s.pending[t.name]; pd['planes'].update(all_planes)
+                    for e in all_events: pd['ev'][KV.ekey(e)] = e
             st.update(ok=True, error=None, since=time.time()); s.fails[b.name] = 0
             log(b.name, 'connected; loaded', len(planes), 'planes,', len(events), 'events')
             return True
