@@ -111,6 +111,12 @@ input[type=date]{background:#111827;color:#e7ecf5;border:1px solid #334155;borde
   .seg .lf{display:none}.seg .ls{display:inline}.seg button{padding:6px 7px;font-size:12px}
   .fresh{max-width:120px;overflow:hidden;text-overflow:ellipsis}
   #hist{top:auto;left:0;right:0;bottom:0;width:100%;height:58%;border-left:0;border-top:2px solid #38bdf8;border-radius:12px 12px 0 0}
-  .rtbl td{white-space:normal}.rtbl td,.rtbl th{padding:6px 5px}
+  .rtbl td,#availTbl td{white-space:normal}.rtbl td,.rtbl th{padding:6px 5px}
   .filters .btn{padding:6px 9px}
+}
+@media (max-width:800px){
+  #availTbl td,#availTbl .sub{white-space:normal}
+  #availTbl td:first-child{max-width:132px}
+  #availTbl td:nth-child(4){max-width:105px}
+  #availTbl td:nth-child(5){min-width:92px}
 }

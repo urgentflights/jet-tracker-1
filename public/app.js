@@ -443,8 +443,8 @@ function renderAvail() {
     const at = s.at || g.ap || s.p.near;
     return `<tr data-hist="${esc(t.tail)}"><td class="b">${opDot(t)}${tl(t.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td>
       <td class="hm2">${esc(opName(t))}</td><td class="hm2">${esc(typeOf(t))}</td><td>${at ? apC(at) : '<span class="muted">?</span>'}</td>
-      <td class="num"><b>${g.exact ? '' : '≥ '}${dur(now - g.since)}</b><span class="sub">${g.ap ? 'landed ' + esc(fmtTime(g.since)) : 'landing not observed'}</span></td>
-      <td>${esc(fmtTime(s.p.ts))}<span class="sub">${ago(now - s.p.ts)}</span></td></tr>`;
+      <td class="num"><b>${g.exact ? '' : '≥ '}${dur(now - g.since)}</b><span class="sub">${g.ap ? 'landed ' + esc(fmtTime(g.since)) : 'landing not observed'}</span><span class="sub mob">seen ${ago(now - s.p.ts)}</span></td>
+      <td class="hm">${esc(fmtTime(s.p.ts))}<span class="sub">${ago(now - s.p.ts)}</span></td></tr>`;
   }).join('') || '<tr><td colspan="6" class="muted">No tails on the ground match.</td></tr>';
   const never = all.filter(({s}) => !s.p), lost = all.filter(({s}) => s.p && s.label === 'Signal lost');
   $('#acount').textContent = `${rows.length} on the ground · ${all.filter(x => x.s.kind === 'air').length} flying · ${lost.length} signal lost · ${never.length} never seen`;

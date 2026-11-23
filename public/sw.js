@@ -1,4 +1,4 @@
-const C = 'jt1-v13', SHELL = ['./', 'index.html', 'app.js', 'style.css', 'vendor/maplibre-gl.js', 'vendor/maplibre-gl.css', 'manifest.webmanifest', 'icon-192.png'];
+const C = 'jt1-v14', SHELL = ['./', 'index.html', 'app.js', 'style.css', 'vendor/maplibre-gl.js', 'vendor/maplibre-gl.css', 'manifest.webmanifest', 'icon-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => x !== C).map(x => caches.delete(x))))); self.clients.claim(); });
 self.addEventListener('fetch', e => {
