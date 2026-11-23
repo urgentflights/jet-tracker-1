@@ -476,6 +476,7 @@ async function openHistory(tail) {
   $('#hCsv').href = `api/history?tail=${encodeURIComponent(tail)}&days=${days}&format=csv`;
   try { hist = await (await fetch(`api/history?tail=${encodeURIComponent(tail)}&days=${days}`, {cache: 'no-store'})).json(); } catch { $('#hTbl tbody').innerHTML = '<tr><td colspan="6" class="muted">Could not load history.</td></tr>'; return; }
   histSel = new Set(hist.legs.map((l, i) => l.from && l.to ? i : -1).filter(i => i >= 0));
+  if (mapReady) map.resize();
   renderHistory(true);
 }
 function renderHistory(fit) {
@@ -503,8 +504,14 @@ function drawHistory(fit) {
   map.getSource('histap').setData({type: 'FeatureCollection', features: Object.values(pts)});
   if (fit && feats.length) {
     const b = new maplibregl.LngLatBounds(); feats.forEach(f => f.geometry.coordinates.forEach(c => b.extend(c)));
-    const wide = innerWidth > 800;
-    map.fitBounds(b, {padding: wide ? {top: 60, bottom: 60, left: 60, right: 620} : {top: 40, bottom: 40, left: 30, right: 30}, maxZoom: 8, duration: 800});
+    // keep the routes clear of the history panel wherever it overlaps the map (side on desktop, bottom sheet on phones)
+    const m = map.getContainer().getBoundingClientRect(), hp = $('#hist').getBoundingClientRect();
+    const wide = hp.left > m.left + 20;  // side panel (desktop) vs bottom sheet (phone)
+    const right = wide ? Math.max(0, m.right - hp.left) : 0, bottom = wide ? 0 : Math.max(0, m.bottom - hp.top);
+    const pad = {top: 50, left: 40, right: right + 40, bottom: bottom + 40};
+    if (pad.left + pad.right > m.width - 80) pad.right = Math.max(40, m.width - 120);
+    if (pad.top + pad.bottom > m.height - 80) pad.bottom = Math.max(40, m.height - 130);
+    map.fitBounds(b, {padding: pad, maxZoom: 8, duration: 800});
   }
 }
 $('#hTbl tbody').addEventListener('click', e => {
