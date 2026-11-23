@@ -1,0 +1,28 @@
+# Render Blueprint. Its only purpose is to give the existing web service a DATABASE_URL that references the existing
+# free Postgres (fromDatabase), since the connection string cannot be read through the API. Settings mirror the
+# current service so adopting it changes nothing else.
+services:
+  - type: web
+    name: jet-tracker-1
+    runtime: python
+    plan: free
+    region: virginia
+    branch: main
+    autoDeploy: false
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 server.py
+    envVars:
+      - key: KV_URL
+        value: redis://red-dc0anb6tlv9c739mifvg:6379
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jet-tracker-1-db
+          property: connectionString
+databases:
+  - name: jet-tracker-1-db
+    plan: free
+    region: virginia
+    databaseName: jet_tracker_1_db
+    user: jet_tracker_1_db_user
+    postgresMajorVersion: "16"
+    ipAllowList: []
