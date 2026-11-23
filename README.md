@@ -36,6 +36,7 @@ Everything except `/healthz`, `/login`, `/signup` and the app icons needs a sign
   SameSite=Lax cookie signed with `SESSION_SECRET` (only its SHA-256 is stored); 30 days with "keep me signed
   in", else 12 h. POSTs must be same-origin (Origin/Referer check). Sign-in is limited to 10 tries per email and
   20 per IP per 15 min; sign-up to 10 per IP per hour.
+- `POST /api/account/delete` `{"password": ...}` – a signed-in user deletes their own account (not the admin).
 - Storage: table `jt_auth` in Postgres + hashes `jt:auth:*` in Key Value + `data/runtime/auth.json`; newest
   record wins, deletions are kept as tombstones.
 - The service worker never caches pages, `/api/*` or auth pages; signing out also clears the browser cache.
