@@ -12,16 +12,16 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=12">
 <script src="vendor/maplibre-gl.js" defer></script>
-<script src="app.js?v=11" defer></script>
+<script src="app.js?v=12" defer></script>
 </head>
 <body class="view-map">
 <header>
   <div class="brand"><span class="logo">✈</span> <span class="bname">ParaFlight Jet Tracker 1</span></div>
   <div class="hright">
     <span id="fresh" class="fresh" title="Age of the newest ADS-B data on the server">Data — · —</span>
-    <div class="seg" id="viewseg"><button data-view="map" class="on">Map</button><button data-view="table">Table</button></div>
+    <div class="seg" id="viewseg"><button data-view="map" class="on">Map</button><button data-view="table">Table</button><button data-view="report">Report</button><button data-view="avail"><span class="lf">Availability</span><span class="ls">Avail</span></button></div>
   </div>
 </header>
 <div class="subbar"><span id="summary">Loading…</span></div>
@@ -86,7 +86,40 @@
       </tr></thead><tbody></tbody></table></div>
     <p class="small pad" id="tzNote"></p>
   </div>
+  <div id="reportview" class="view">
+    <div class="filters">
+      <button class="btn" id="rprev" aria-label="Previous day">‹</button>
+      <input type="date" id="rdate">
+      <button class="btn" id="rnext" aria-label="Next day">›</button>
+      <button class="btn" id="ryday">Yesterday</button><button class="btn" id="rtoday">Today</button>
+      <span class="small inline" id="rsum"></span>
+    </div>
+    <div class="scroll" id="rbody"><p class="small pad">Loading…</p></div>
+  </div>
+  <div id="availview" class="view">
+    <div class="filters">
+      <select id="aop"><option value="">All operators</option></select>
+      <select id="atype"><option value="">All types</option></select>
+      <span class="small inline" id="acount"></span>
+    </div>
+    <div class="scroll">
+      <div class="tblwrap"><table class="tbl" id="availTbl">
+        <thead><tr><th data-k="tail">Tail</th><th data-k="op" class="hm2">Operator</th><th data-k="type" class="hm2">Type</th><th data-k="at">At</th><th data-k="ground" class="num">On ground</th><th data-k="seen">Last seen</th></tr></thead>
+        <tbody></tbody></table></div>
+      <h3 class="sect">Not seen since tracking began <span class="muted" id="nNever"></span></h3>
+      <p class="small pad" id="neverList"></p>
+      <p class="small pad" id="availNote"></p>
+    </div>
+  </div>
 </main>
+<aside id="hist" class="hide" aria-label="Tail history">
+  <div class="hhead"><div><b id="hTail"></b> <span class="muted" id="hOp"></span><div class="small" id="hSub"></div></div>
+    <div class="hbtns"><select id="hDays"><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option></select>
+    <a class="btn" id="hCsv" href="#" download>CSV</a><button class="btn" id="hClose" aria-label="Close">✕</button></div></div>
+  <div class="htot" id="hTot"></div>
+  <div class="hlist"><table class="tbl" id="hTbl"><thead><tr><th></th><th>From</th><th>To</th><th>Takeoff</th><th>Landed</th><th class="num">Block</th></tr></thead><tbody></tbody></table>
+  <p class="small pad" id="hNote"></p></div>
+</aside>
 <div id="waking" class="waking"><div><div class="spin"></div><b>Loading live positions…</b><br><span>If the app was idle, the free server takes up to a minute to wake up.</span></div></div>
 <button id="toggle" class="toggle">List</button>
 </body>

@@ -6,6 +6,11 @@ and serves the static app in public/.  Run: python3 server.py [port]"""
 import json, math, os, re, sys, threading, time, urllib.request, urllib.parse, gzip, traceback
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from store import Store
+import datetime, csv, io
+try:
+    from zoneinfo import ZoneInfo; TZ_NY = ZoneInfo('America/New_York')
+except Exception:
+    TZ_NY = datetime.timezone(datetime.timedelta(hours=-5))
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, 'data'); PUB = os.path.join(ROOT, 'public')
@@ -19,7 +24,9 @@ SOURCES = [('adsb.lol', 'https://api.adsb.lol/v2/hex/{}'),
 TRAIL_MAX = 400
 LOSS_S = 600          # airborne plane unheard this long -> decide landed (low, near airport) or lost at altitude
 RETRACT_S = 1500      # an inferred landing is withdrawn if the plane reappears airborne within this many seconds
-EVENTS_MEM = 20000
+EVENTS_MEM = 80000
+RETAIN_DAYS = int(os.environ.get('RETAIN_DAYS', '90'))   # events older than this are pruned (>= 30 days required)
+BLOCK_PAD_MIN = 12   # block time estimate = airborne time + taxi allowance
 
 def log(*a): print(*a, flush=True)
 
@@ -300,10 +307,116 @@ def poll_once():
         snap = {h: {k: v for k, v in p.items()} for h, p in changed.items()}
     if snap or new_events or deleted: store.save(planes=snap, events=new_events, deleted=deleted)
 
+# ---------------------------------------------------------------- legs / reports / history
+def ap_with_ll(ap):
+    if not ap: return None
+    d = dict(ap)
+    if 'lat' not in d:
+        a = AP_BY_CODE.get(d.get('code'))
+        if a: d['lat'], d['lon'] = a[6], a[7]
+    return d
+
+def build_legs(evs):
+    """Pair each takeoff with the next landing of the same aircraft. Unpaired landings become legs with an unknown
+    origin; a takeoff not (yet) followed by a landing is an open leg (still flying or landing not heard)."""
+    by = {}
+    for e in sorted(evs, key=lambda e: e['ts']): by.setdefault(e['hex'], []).append(e)
+    legs = []
+    for h, lst in by.items():
+        pend = None; prev_land = None
+        for e in lst:
+            if e['kind'] == 'takeoff':
+                if pend: legs.append(mk_leg(pend, None))
+                pend = e
+            else:
+                if pend and e['ts'] - pend['ts'] < 20 * 3600: legs.append(mk_leg(pend, e))
+                else:
+                    if pend: legs.append(mk_leg(pend, None))
+                    lg = mk_leg(None, e)
+                    # takeoff not heard: if we saw it land somewhere else earlier (and nothing since), that was the origin
+                    if not pend and prev_land and (prev_land.get('ap') or {}).get('code') != (e.get('ap') or {}).get('code') and e['ts'] - prev_land['ts'] < 7 * 86400:
+                        lg['from'] = ap_with_ll(prev_land['ap']); lg['fromPrior'] = True
+                    legs.append(lg)
+                pend = None; prev_land = e
+        if pend: legs.append(mk_leg(pend, None))
+    legs.sort(key=lambda l: l['off'] or l['on'])
+    return legs
+
+def mk_leg(t, l):
+    e = t or l
+    air = (l['ts'] - t['ts']) if t and l else None
+    return {'tail': e.get('tail'), 'hex': e['hex'], 'from': ap_with_ll(t['ap']) if t else None, 'to': ap_with_ll(l['ap']) if l else None,
+            'off': t['ts'] if t else None, 'on': l['ts'] if l else None,
+            'offInferred': bool(t and t.get('inferred')), 'onInferred': bool(l and l.get('inferred')),
+            'airMin': round(air / 60) if air is not None else None,
+            'blockMin': round(air / 60 + BLOCK_PAD_MIN) if air is not None else None,
+            'lifeguard': bool((t and t.get('lifeguard')) or (l and l.get('lifeguard'))), 'open': l is None, 'fromPrior': False}
+
+def ny_day_bounds(date_str):
+    if date_str: d = datetime.date.fromisoformat(date_str)
+    else: d = datetime.datetime.now(TZ_NY).date() - datetime.timedelta(days=1)
+    start = datetime.datetime(d.year, d.month, d.day, tzinfo=TZ_NY)
+    end = start + datetime.timedelta(days=1)
+    return d, start.timestamp(), end.timestamp()
+
+def fleet_report(date_str):
+    d, t0, t1 = ny_day_bounds(date_str)
+    with lock: evs = [e for e in events if t0 - 20 * 3600 <= e['ts'] < t1 + 20 * 3600]
+    legs = [l for l in build_legs(evs) if t0 <= (l['on'] or l['off']) < t1]
+    tails = {t['tail']: t for t in fleet['tails']}
+    ops = {o['id']: o for o in fleet['operators']}
+    out = {}
+    for l in legs:
+        t = tails.get(l['tail']) or {'op': '?'}
+        o = out.setdefault(t['op'], {'op': t['op'], 'name': (ops.get(t['op']) or {}).get('name', t['op']), 'tails': {}, 'legs': 0, 'blockMin': 0, 'airMin': 0, 'lifeguard': 0})
+        tt = o['tails'].setdefault(l['tail'], {'tail': l['tail'], 'type': t.get('model'), 'legs': [], 'blockMin': 0, 'airMin': 0, 'lifeguard': 0})
+        tt['legs'].append(l)
+        for x in (tt, o):
+            x['blockMin'] += l['blockMin'] or 0; x['airMin'] += l['airMin'] or 0; x['lifeguard'] += 1 if l['lifeguard'] else 0
+        o['legs'] += 1
+    opl = sorted(out.values(), key=lambda o: o['name'].lower())
+    for o in opl: o['tails'] = sorted(o['tails'].values(), key=lambda t: t['tail'])
+    with lock: first = min((e['ts'] for e in events), default=None)
+    return {'date': d.isoformat(), 'tz': 'America/New_York', 'start': t0, 'end': t1, 'trackingSince': first,
+            'totals': {'legs': len(legs), 'blockMin': sum(o['blockMin'] for o in opl), 'airMin': sum(o['airMin'] for o in opl),
+                       'tails': sum(len(o['tails']) for o in opl), 'operators': len(opl), 'lifeguard': sum(o['lifeguard'] for o in opl)},
+            'blockPadMin': BLOCK_PAD_MIN, 'operators': opl}
+
+def tail_history(tail, days):
+    cut = time.time() - days * 86400
+    with lock:
+        evs = [e for e in events if e.get('tail') == tail and e['ts'] >= cut - 20 * 3600]
+        first = min((e['ts'] for e in events), default=None)
+    legs = [l for l in build_legs(evs) if (l['on'] or l['off']) >= cut]
+    return {'tail': tail, 'days': days, 'since': cut, 'trackingSince': first, 'legs': legs[::-1],
+            'totals': {'legs': len(legs), 'blockMin': sum(l['blockMin'] or 0 for l in legs), 'airMin': sum(l['airMin'] or 0 for l in legs),
+                       'lifeguard': sum(1 for l in legs if l['lifeguard']),
+                       'airports': len({(l['to'] or {}).get('code') for l in legs if l['to']} | {(l['from'] or {}).get('code') for l in legs if l['from']})}}
+
+def history_csv(h):
+    b = io.StringIO(); w = csv.writer(b)
+    w.writerow(['tail', 'from', 'from_name', 'to', 'to_name', 'takeoff_local', 'landing_local', 'airborne_min', 'block_min_est', 'takeoff_inferred', 'landing_inferred', 'lifeguard', 'origin_from_prior_landing'])
+    f = lambda ts: datetime.datetime.fromtimestamp(ts, TZ_NY).strftime('%Y-%m-%d %H:%M %Z') if ts else ''
+    for l in h['legs']:
+        w.writerow([h['tail'], (l['from'] or {}).get('code', ''), (l['from'] or {}).get('name', ''), (l['to'] or {}).get('code', ''), (l['to'] or {}).get('name', ''),
+                    f(l['off']), f(l['on']), l['airMin'] if l['airMin'] is not None else '', l['blockMin'] if l['blockMin'] is not None else '',
+                    l['offInferred'], l['onInferred'], l['lifeguard'], l.get('fromPrior', False)])
+    return b.getvalue()
+
+_last_prune = 0
+def prune_old():
+    global _last_prune
+    if time.time() - _last_prune < 3600: return
+    _last_prune = time.time(); cut = time.time() - RETAIN_DAYS * 86400
+    with lock:
+        old = [e for e in events if e['ts'] < cut]
+        for e in old: remove_event(e, [])
+    if old: log('pruned', len(old), 'events older than', RETAIN_DAYS, 'days'); store.save(deleted=old)
+
 def poller():
     while True:
         t0 = time.time()
-        try: poll_once()
+        try: poll_once(); prune_old()
         except BaseException as e:  # never let the poller thread die
             log('poll error', e); traceback.print_exc()
             state['lastError'] = f'{type(e).__name__}: {e}'[:300]; state['pollErrors'] += 1
@@ -430,6 +543,19 @@ class H(SimpleHTTPRequestHandler):
             tail = (q.get('tail') or [''])[0].upper(); limit = min(int((q.get('limit') or ['50'])[0]), 5000)
             with lock: ev = [e for e in events if not tail or e.get('tail') == tail][-limit:]
             return s.send_json({'events': ev[::-1]})
+        if path == '/api/report':
+            try: return s.send_json(fleet_report((q.get('date') or [''])[0] or None))
+            except ValueError: return s.send_json({'error': 'date must be YYYY-MM-DD'}, 400)
+        if path == '/api/history':
+            tail = (q.get('tail') or [''])[0].upper().strip(); days = max(1, min(int((q.get('days') or ['30'])[0]), RETAIN_DAYS))
+            if not tail: return s.send_json({'error': 'tail required'}, 400)
+            h = tail_history(tail, days)
+            if (q.get('format') or [''])[0] == 'csv':
+                b = history_csv(h).encode()
+                s.send_response(200); s.send_header('Content-Type', 'text/csv; charset=utf-8')
+                s.send_header('Content-Disposition', f'attachment; filename="{tail}-{days}d-history.csv"'); s.send_header('Content-Length', str(len(b)))
+                s.end_headers(); s.wfile.write(b); return
+            return s.send_json(h)
         if path == '/api/export':
             with lock: dump = {'format': 'jt1-history-v1', 'exported': time.time(), 'planes': {h: dict(p) for h, p in state['planes'].items()}, 'events': list(events)}
             return s.send_json(dump, extra={'Content-Disposition': 'attachment; filename="jet-tracker-1-history.json"'})

@@ -109,7 +109,7 @@ function renderCards(list) {
     const seen = s.p ? `${s.kind === 'air' ? 'Updated' : 'Last seen'} ${fmtTime(s.p.ts)} (${ago(s.age)})` : '';
     const up = s.kind === 'air' && s.origin ? `From ${apCode(s.origin) || '?'} · up ${s.origin.inferred ? '~' : ''}${dur(nowS() - s.origin.ts)}` : '';
     return `<div class="card ${selected === t.tail ? 'sel' : ''}" data-tail="${esc(t.tail)}" style="border-left-color:${esc(o.color)}">
-      <div class="top"><span class="tail">${esc(t.tail)}<span class="conf ${esc(t.confidence)}" title="${esc(t.source)}">${esc(t.confidence || '')}</span></span><span class="op">${esc(o.name)}</span></div>
+      <div class="top"><span class="tail">${tl(t.tail)}<span class="conf ${esc(t.confidence)}" title="${esc(t.source)}">${esc(t.confidence || '')}</span></span><span class="op">${esc(o.name)}</span></div>
       <div class="model">${esc(t.model || '')}${t.year ? ' · ' + esc(t.year) : ''}</div>
       <div class="status"><span class="badge ${s.kind}">${s.label}</span>${esc(s.line || '')}</div>
       ${s.where ? `<div class="meta">${esc(s.where)}</div>` : ''}
@@ -146,6 +146,7 @@ function hookSort(tbl, name, key) {
 }
 hookSort($('#activeTbl'), 'active', 'sortA'); hookSort($('#fleetTbl'), 'fleet', 'sortF');
 const opName = t => opById[t.op]?.name || t.op;
+const tl = tail => `<a class="tl" data-hist="${esc(tail)}" title="30-day history">${esc(tail)}</a>`;
 const LG_RED = '#ef4444';
 const opLg = (t, lg, why) => lg ? `<span class="lg" title="Lifeguard / medevac${why ? ' · ' + esc(why) : ''}">${esc(opName(t))} ✚</span>` : esc(opName(t));
 const opDot = t => `<span class="dot" style="background:${esc(opById[t.op]?.color || '#888')}"></span>`;
@@ -161,7 +162,7 @@ function renderActive() {
     const p = s.p, vs = p.vsFpm > 500 ? '↑' : p.vsFpm < -500 ? '↓' : '';
     return `<tr data-tail="${esc(t.tail)}" class="${selected === t.tail ? 'sel' : ''}">
       <td class="b" title="${esc(s.origin ? apName(s.origin) + ' · ' + (HOW[s.origin.how] || '') : 'Takeoff not observed')}">${esc(apCode(s.origin) || '—')}</td>
-      <td class="b">${opDot(t)}${esc(t.tail)}</td><td>${opLg(t, p.lifeguard, p.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
+      <td class="b">${opDot(t)}${tl(t.tail)}</td><td>${opLg(t, p.lifeguard, p.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
       <td class="num">${p.gsKt != null ? Math.round(p.gsKt) : '—'}</td>
       <td class="num">${p.track != null ? Math.round(p.track) + '°' : '—'}</td>
       <td class="num">${p.altFt == null ? '—' : p.altFt >= 18000 ? 'FL' + Math.round(p.altFt / 100) : p.altFt.toLocaleString()}${vs}</td>
@@ -178,7 +179,7 @@ function renderLanded() {
     const t = byTail[e.tail] || {tail: e.tail, op: ''}, a = e.ap, o = e.origin;
     return `<tr data-tail="${esc(e.tail)}" class="${selected === e.tail ? 'sel' : ''}">
       <td title="${o ? esc((apName(o.ap) || '') + ' · took off ' + fmtTime(o.ts)) : 'Takeoff not observed'}">${o && o.ap ? `<b>${esc(apCode(o.ap))}</b><span class="sub">${o.inferred ? '~' : ''}${esc(fmtTime(o.ts, false))}</span>` : '<span class="muted">—</span>'}</td>
-      <td class="b">${opDot(t)}${esc(e.tail)}<span class="sub mob">${opLg(t, e.lifeguard, e.lifeguardReason)} · ${esc(typeOf(t))}</span></td>
+      <td class="b">${opDot(t)}${tl(e.tail)}<span class="sub mob">${opLg(t, e.lifeguard, e.lifeguardReason)} · ${esc(typeOf(t))}</span></td>
       <td class="hm2">${opLg(t, e.lifeguard, e.lifeguardReason)}</td><td class="hm">${esc(typeOf(t))}</td>
       <td title="${esc(apName(a) || '')}"><b>${esc(apCode(a) || '?')}</b>${a?.city ? `<span class="sub">${esc(a.city)}${a.region && a.country === 'US' ? ', ' + esc(a.region) : ''}</span>` : ''}</td>
       <td>${esc(fmtTime(e.ts))}<span class="sub">${ago(nowS() - e.ts)}${e.inferred ? ` · <span class="inf" title="${esc(HOW[e.how] || 'inferred')}">inferred</span>` : ''}</span></td>
@@ -207,7 +208,7 @@ function renderFleetTable() {
   $('#fleetTbl tbody').innerHTML = rows.map(({t, s}) => {
     const L = s.landed;
     return `<tr data-tail="${esc(t.tail)}">
-      <td class="b">${opDot(t)}${esc(t.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td><td class="hm2">${esc(opName(t))}</td><td class="hm2">${esc(typeOf(t))}</td>
+      <td class="b">${opDot(t)}${tl(t.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td><td class="hm2">${esc(opName(t))}</td><td class="hm2">${esc(typeOf(t))}</td>
       <td><span class="badge ${s.kind}">${s.label}</span>${s.kind === 'air' ? `<span class="sub">${altTxt(s.p.altFt)} · ${s.p.gsKt != null ? Math.round(s.p.gsKt) + ' kt' : ''}${s.origin ? ' · from ' + esc(apCode(s.origin)) : ''}</span>` : ''}</td>
       <td title="${L ? esc(apName(L) + ' · ' + (HOW[L.how] || '')) : ''}">${L ? `<b>${esc(apCode(L) || '?')}</b> <span class="sub">${esc(fmtTime(L.ts))} · ${ago(nowS() - L.ts)}${L.inferred ? ' · inferred' : ''}</span>` : '<span class="muted">—</span>'}</td>
       <td>${s.p ? `${esc(apCode(s.at || s.p.near) || '')} <span class="sub">${esc(fmtTime(s.p.ts))} · ${ago(s.age)}</span>` : '<span class="muted">never seen yet</span>'}</td></tr>`;
@@ -218,8 +219,11 @@ function renderFleetTable() {
 $('#fleetTbl tbody').addEventListener('click', e => { const r = e.target.closest('tr[data-tail]'); if (!r) return; setView('map'); select(r.dataset.tail, true); });
 
 // ---------- views & tabs
+const VIEWS = ['map', 'table', 'report', 'avail'];
 function setView(v) {
-  document.body.classList.toggle('view-map', v === 'map'); document.body.classList.toggle('view-table', v === 'table');
+  if (!VIEWS.includes(v)) v = 'map';
+  VIEWS.forEach(x => document.body.classList.toggle('view-' + x, v === x));
+  if (v === 'report' && !reportData) loadReport(rDate || addDays(nyToday(), -1));
   document.querySelectorAll('#viewseg button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
   localStorage.setItem(LS('view'), v); if (v === 'map') setTimeout(() => map?.resize(), 50); render();
 }
@@ -236,13 +240,14 @@ function popupHtml(tail) {
   const t = fleet.tails.find(x => x.tail === tail); if (!t) return '';
   const s = status(t), o = opById[t.op] || {}, p = s.p;
   const rows = [];
-  rows.push(`<div class="pp-h"><b>${esc(t.tail)}</b> ${p?.lifeguard ? opLg(t, true, p.lifeguardReason) : `<span class="muted">${esc(o.name || '')}</span>`}</div><div class="muted">${esc(typeOf(t))}${t.year ? ' · ' + esc(t.year) : ''}</div>`);
+  rows.push(`<div class="pp-h"><b>${tl(t.tail)}</b> ${p?.lifeguard ? opLg(t, true, p.lifeguardReason) : `<span class="muted">${esc(o.name || '')}</span>`}</div><div class="muted">${esc(typeOf(t))}${t.year ? ' · ' + esc(t.year) : ''}</div>`);
   rows.push(`<div><span class="badge ${s.kind}">${s.label}</span>${esc(s.line || '')}</div>`);
   if (p?.lifeguard) rows.push(`<div class="lg">✚ Lifeguard / medevac <span class="muted">(${esc(p.lifeguardReason || '')})</span></div>`);
   if (s.kind === 'air' && s.origin) rows.push(`<div>🛫 From <b>${esc(apCode(s.origin))}</b> · ${esc(fmtTime(s.origin.ts))} · up ${s.origin.inferred ? '~' : ''}${dur(nowS() - s.origin.ts)}</div>`);
   if (s.landed) rows.push(`<div>🛬 Landed <b>${esc(apCode(s.landed) || '?')}</b> · ${esc(fmtTime(s.landed.ts))} (${ago(nowS() - s.landed.ts)})${s.landed.inferred ? `<br><span class="muted">${esc(HOW[s.landed.how] || 'inferred')}</span>` : ''}</div>`);
   else rows.push(`<div class="muted">🛬 No landing recorded yet</div>`);
   if (p) rows.push(`<div class="muted">Last seen ${esc(fmtTime(p.ts))} (${ago(s.age)})</div>`);
+  rows.push(`<div><button class="btn sm" data-hist="${esc(t.tail)}">📋 30-day history</button></div>`);
   return `<div class="pp">${rows.join('')}</div>`;
 }
 function openPopup(tail) {
@@ -293,7 +298,7 @@ function render() {
   const list = visibleTails();
   $('#nAll').textContent = list.length;
   if (document.body.classList.contains('view-map')) { renderChips(); renderCards(list); renderMap(list); renderActive(); renderLanded(); }
-  renderSummary(list); renderFleetTable(); renderFresh();
+  renderSummary(list); renderFleetTable(); renderAvail(); renderFresh();
 }
 ['input', 'change'].forEach(ev => { $('#q').addEventListener(ev, render); });
 $('#sort').addEventListener('change', () => { localStorage.setItem(LS('sort'), $('#sort').value); render(); });
@@ -331,7 +336,12 @@ function initMap() {
       map.on('mouseenter', l, () => map.getCanvas().style.cursor = 'pointer');
       map.on('mouseleave', l, () => map.getCanvas().style.cursor = '');
     }
-    mapReady = true; render();
+    map.addSource('hist', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+    map.addSource('histap', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+    map.addLayer({id: 'hist', type: 'line', source: 'hist', paint: {'line-color': ['case', ['==', ['get', 'lg'], 1], '#ef4444', '#2563eb'], 'line-width': 3, 'line-opacity': .85, 'line-dasharray': [2, 1]}});
+    map.addLayer({id: 'histap', type: 'circle', source: 'histap', paint: {'circle-radius': 5, 'circle-color': '#fff', 'circle-stroke-color': '#2563eb', 'circle-stroke-width': 2}});
+    map.addLayer({id: 'histlbl', type: 'symbol', source: 'histap', layout: {'text-field': ['get', 'code'], 'text-size': 12, 'text-offset': [0, -1.2], 'text-font': ['Noto Sans Bold']}, paint: {'text-color': '#1e3a8a', 'text-halo-color': '#fff', 'text-halo-width': 1.5}});
+    mapReady = true; render(); drawHistory(false);
   });
 }
 
@@ -346,17 +356,164 @@ async function refresh() {
 async function loadFleet() {
   const f = await (await fetch('api/fleet', {cache: 'no-store'})).json();
   f.operators = [...f.operators].sort((x, y) => (x.name || x.id).localeCompare(y.name || y.id, undefined, {sensitivity: 'base'}));  // A–Z everywhere
-  fleet = f; opById = {}; fleet.operators.forEach(o => opById[o.id] = o); fillFilters();
+  fleet = f; opById = {}; fleet.operators.forEach(o => opById[o.id] = o); fillFilters(); if (typeof fillAvailFilters === 'function') fillAvailFilters();
 }
 async function boot() {
   for (let i = 0; ; i++) { try { await loadFleet(); break; } catch (e) { if (i > 30) throw e; await new Promise(r => setTimeout(r, 3000)); } }
   setTab(localStorage.getItem(LS('tab')) || 'active');
   const v = new URLSearchParams(location.search).get('view') || localStorage.getItem(LS('view')) || 'map';
-  initMap(); setView(v === 'table' ? 'table' : 'map');
+  initMap(); setView(v);
   await refresh(); setInterval(refresh, 15000);
   setInterval(() => loadFleet().then(render).catch(() => {}), 300000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+/* ================= Daily report, availability, per-tail history ================= */
+var reportData = null, rDate = null;
+const NY = 'America/New_York';
+function nyToday() { return new Intl.DateTimeFormat('en-CA', {timeZone: NY}).format(new Date()); }
+function addDays(d, n) { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); }
+const nyTime = (t, withDay) => t ? new Date(t * 1000).toLocaleString([], {timeZone: NY, hour: 'numeric', minute: '2-digit', timeZoneName: 'short', ...(withDay ? {month: 'short', day: 'numeric'} : {})}) : '—';
+const hm = m => m == null ? '—' : `${Math.floor(m / 60)}:${String(Math.round(m % 60)).padStart(2, '0')}`;
+const apC = a => a ? `<b>${esc(apCode(a))}</b>${a.city ? `<span class="sub">${esc(a.city)}${a.region && a.country === 'US' ? ', ' + esc(a.region) : ''}</span>` : ''}` : '<span class="muted">?</span>';
+
+async function loadReport(d) {
+  rDate = d; $('#rdate').value = d; $('#rdate').max = nyToday(); $('#rnext').disabled = d >= nyToday();
+  $('#rbody').innerHTML = '<p class="small pad">Loading…</p>';
+  try { reportData = await (await fetch('api/report?date=' + d, {cache: 'no-store'})).json(); } catch { $('#rbody').innerHTML = '<p class="small pad">Could not load the report (offline?).</p>'; return; }
+  renderReport();
+}
+function renderReport() {
+  const r = reportData; if (!r || r.error) return;
+  const T = r.totals;
+  $('#rsum').innerHTML = `<b>${T.legs}</b> legs · ${T.tails} tails · ${T.operators} operators · <b>${hm(T.blockMin)}</b> block${T.lifeguard ? ` · <span class="lg">✚ ${T.lifeguard} lifeguard</span>` : ''}`;
+  const byTail = Object.fromEntries(fleet.tails.map(t => [t.tail, t]));
+  let html = '';
+  if (r.trackingSince && r.end < r.trackingSince) html += `<p class="small pad">History tracking began ${esc(nyTime(r.trackingSince, true))}; nothing is recorded before that.</p>`;
+  if (!r.operators.length) html += `<p class="small pad">No legs recorded on ${esc(r.date)}.</p>`;
+  for (const o of r.operators) {
+    const op = opById[o.op] || {color: '#888'};
+    html += `<section class="rop"><h3 class="sect"><span class="dot" style="background:${esc(op.color)}"></span> ${esc(o.name)} <span class="muted">· ${o.legs} leg${o.legs > 1 ? 's' : ''} · ${hm(o.blockMin)} block${o.lifeguard ? ` · <span class="lg">✚ ${o.lifeguard}</span>` : ''}</span></h3>
+      <div class="tblwrap"><table class="tbl rtbl"><thead><tr><th>Tail</th><th>From</th><th>To</th><th>Takeoff</th><th>Landed</th><th class="num">Block</th></tr></thead><tbody>`;
+    for (const t of o.tails) {
+      t.legs.forEach((l, i) => {
+        html += `<tr data-hist="${esc(t.tail)}">
+          <td class="b">${i ? '' : `${tl(t.tail)}<span class="sub">${esc(t.type || byTail[t.tail]?.model || '')}</span>`}${l.lifeguard ? ' <span class="lg" title="Lifeguard / medevac">✚</span>' : ''}</td>
+          <td>${l.from ? apC(l.from) + (l.fromPrior ? '<span class="sub inf" title="Takeoff not heard; origin = where it last landed">prior stop</span>' : '') : '<span class="muted" title="takeoff not observed">—</span>'}</td><td>${l.to ? apC(l.to) : '<span class="muted">' + (l.open ? 'flying / not heard' : '—') + '</span>'}</td>
+          <td>${l.off ? (l.offInferred ? '~' : '') + esc(nyTime(l.off)) : (l.fromPrior ? '<span class="muted">not heard</span>' : '—')}</td><td>${l.on ? esc(nyTime(l.on)) + (l.onInferred ? '<span class="sub inf">inferred</span>' : '') : '—'}</td>
+          <td class="num">${hm(l.blockMin)}</td></tr>`;
+      });
+      if (t.legs.length > 1) html += `<tr class="tot" data-hist="${esc(t.tail)}"><td colspan="5">${esc(t.tail)} total · ${t.legs.length} legs</td><td class="num">${hm(t.blockMin)}</td></tr>`;
+    }
+    html += `</tbody></table></div></section>`;
+  }
+  html += `<p class="small pad">Day = midnight to midnight America/New_York (${esc(r.date)}); times in EST/EDT. Block time is estimated as airborne time + ${r.blockPadMin} min taxi. "~" takeoff or "inferred" landing = estimated from ADS-B coverage. Tap a tail for its 30-day history.</p>`;
+  $('#rbody').innerHTML = html;
+}
+$('#rdate').addEventListener('change', () => $('#rdate').value && loadReport($('#rdate').value));
+$('#rprev').addEventListener('click', () => loadReport(addDays(rDate || nyToday(), -1)));
+$('#rnext').addEventListener('click', () => { const d = addDays(rDate || nyToday(), 1); if (d <= nyToday()) loadReport(d); });
+$('#ryday').addEventListener('click', () => loadReport(addDays(nyToday(), -1)));
+$('#rtoday').addEventListener('click', () => loadReport(nyToday()));
+
+// ---------- availability
+const sortsAv = JSON.parse(localStorage.getItem(LS('sortV')) || '{"k":"ground","d":-1}');
+function groundInfo(s) {
+  // returns {since, exact}: when this tail's current ground stay started
+  const L = s.p.lastLanding, T = s.p.lastTakeoff;
+  if (L && (!T || L.ts >= T.ts)) return {since: L.ts, exact: !L.inferred, ap: L};
+  return {since: s.p.firstSeen || s.p.ts, exact: false, ap: null};
+}
+function fillAvailFilters() {
+  const ao = $('#aop'), at = $('#atype'), cur = [ao.value, at.value];
+  ao.innerHTML = '<option value="">All operators</option>' + fleet.operators.map(o => `<option value="${esc(o.id)}">${esc(o.name)}</option>`).join('');
+  at.innerHTML = '<option value="">All types</option>' + [...new Set(fleet.tails.map(typeOf).filter(Boolean))].sort().map(x => `<option>${esc(x)}</option>`).join('');
+  ao.value = cur[0]; at.value = cur[1];
+}
+function renderAvail() {
+  if (!document.body.classList.contains('view-avail')) return;
+  if ($('#aop').options.length <= 1) fillAvailFilters();
+  const fo = $('#aop').value, fty = $('#atype').value, now = nowS();
+  const all = allTails().filter(({t}) => (!fo || t.op === fo) && (!fty || typeOf(t) === fty) && ($('#showLow').checked || t.confidence !== 'low'));
+  const rows = all.filter(({s}) => s.p && s.kind !== 'air' && !(s.label === 'Signal lost')).map(x => ({...x, g: groundInfo(x.s)}));
+  const G = {tail: r => r.t.tail, op: r => opName(r.t), type: r => typeOf(r.t), at: r => apCode(r.s.at || r.g.ap) || '', ground: r => now - r.g.since, seen: r => r.s.p.ts};
+  sortRows(rows, sortsAv, G); markHeaders($('#availTbl'), sortsAv);
+  $('#availTbl tbody').innerHTML = rows.map(({t, s, g}) => {
+    const at = s.at || g.ap || s.p.near;
+    return `<tr data-hist="${esc(t.tail)}"><td class="b">${opDot(t)}${tl(t.tail)}<span class="sub mob">${esc(opName(t))} · ${esc(typeOf(t))}</span></td>
+      <td class="hm2">${esc(opName(t))}</td><td class="hm2">${esc(typeOf(t))}</td><td>${at ? apC(at) : '<span class="muted">?</span>'}</td>
+      <td class="num"><b>${g.exact ? '' : '≥ '}${dur(now - g.since)}</b><span class="sub">${g.ap ? 'landed ' + esc(fmtTime(g.since)) : 'landing not observed'}</span></td>
+      <td>${esc(fmtTime(s.p.ts))}<span class="sub">${ago(now - s.p.ts)}</span></td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="muted">No tails on the ground match.</td></tr>';
+  const never = all.filter(({s}) => !s.p), lost = all.filter(({s}) => s.p && s.label === 'Signal lost');
+  $('#acount').textContent = `${rows.length} on the ground · ${all.filter(x => x.s.kind === 'air').length} flying · ${lost.length} signal lost · ${never.length} never seen`;
+  $('#nNever').textContent = `· ${never.length}`;
+  $('#neverList').innerHTML = never.map(({t}) => `<span class="pill">${opDot(t)}${esc(t.tail)} <span class="muted">${esc(opName(t))}</span></span>`).join(' ') || 'None.';
+  $('#availNote').textContent = `Sorted by longest on the ground first. "≥" = the landing wasn't observed, so the stay is at least that long (since first heard). Tails last heard airborne without a landing ("signal lost") are left out. Times in your local zone (${TZ}).`;
+}
+['change'].forEach(ev => ['#aop', '#atype'].forEach(id => $(id).addEventListener(ev, renderAvail)));
+$('#availTbl thead').addEventListener('click', e => {
+  const th = e.target.closest('th'); if (!th) return;
+  if (sortsAv.k === th.dataset.k) sortsAv.d = -sortsAv.d; else { sortsAv.k = th.dataset.k; sortsAv.d = ['tail', 'op', 'type', 'at'].includes(sortsAv.k) ? 1 : -1; }
+  localStorage.setItem(LS('sortV'), JSON.stringify(sortsAv)); renderAvail();
+});
+
+// ---------- per-tail history panel
+let hist = null, histSel = new Set();
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-hist]'); if (!el) return;
+  if (el.closest('#hist')) return;
+  e.preventDefault(); e.stopPropagation(); openHistory(el.dataset.hist);
+}, true);
+async function openHistory(tail) {
+  const t = fleet.tails.find(x => x.tail === tail) || {tail, op: ''};
+  $('#hist').classList.remove('hide'); document.body.classList.add('hist-open');
+  if (!document.body.classList.contains('view-map')) setView('map');
+  $('#hTail').textContent = tail; $('#hOp').textContent = `${opName(t)} · ${typeOf(t)}`;
+  $('#hTbl tbody').innerHTML = '<tr><td colspan="6" class="muted">Loading…</td></tr>'; $('#hTot').textContent = ''; $('#hSub').textContent = '';
+  const days = $('#hDays').value;
+  $('#hCsv').href = `api/history?tail=${encodeURIComponent(tail)}&days=${days}&format=csv`;
+  try { hist = await (await fetch(`api/history?tail=${encodeURIComponent(tail)}&days=${days}`, {cache: 'no-store'})).json(); } catch { $('#hTbl tbody').innerHTML = '<tr><td colspan="6" class="muted">Could not load history.</td></tr>'; return; }
+  histSel = new Set(hist.legs.map((l, i) => l.from && l.to ? i : -1).filter(i => i >= 0));
+  renderHistory(true);
+}
+function renderHistory(fit) {
+  const h = hist; if (!h) return; const T = h.totals;
+  const since = h.trackingSince && h.trackingSince > h.since ? `since tracking began ${nyTime(h.trackingSince, true)}` : `last ${h.days} days`;
+  $('#hSub').textContent = since;
+  $('#hTot').innerHTML = `<span><b>${T.legs}</b> legs</span><span><b>${hm(T.blockMin)}</b> block</span><span><b>${hm(T.airMin)}</b> airborne</span><span><b>${T.airports}</b> airports</span>${T.lifeguard ? `<span class="lg">✚ ${T.lifeguard} lifeguard</span>` : ''}`;
+  $('#hTbl tbody').innerHTML = h.legs.map((l, i) => `<tr data-i="${i}" class="${histSel.has(i) ? 'sel' : ''}">
+    <td><input type="checkbox" ${histSel.has(i) ? 'checked' : ''} ${l.from && l.to ? '' : 'disabled title="route needs both airports"'}></td>
+    <td>${l.from ? apC(l.from) + (l.fromPrior ? '<span class="sub inf" title="Takeoff not heard; origin = where it last landed">prior stop</span>' : '') : '<span class="muted">—</span>'}</td><td>${l.to ? apC(l.to) : `<span class="muted">${l.open ? 'flying?' : '—'}</span>`}${l.lifeguard ? ' <span class="lg">✚</span>' : ''}</td>
+    <td>${l.off ? (l.offInferred ? '~' : '') + esc(fmtTime(l.off)) : (l.fromPrior ? '<span class="muted">not heard</span>' : '—')}</td><td>${l.on ? esc(fmtTime(l.on)) + (l.onInferred ? '<span class="sub inf">inferred</span>' : '') : '—'}</td>
+    <td class="num">${hm(l.blockMin)}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">No legs recorded in this period.</td></tr>';
+  $('#hNote').textContent = `Newest first. Tick legs to draw their routes on the map (straight lines between airports). Block = airborne + ${reportData?.blockPadMin ?? 12} min taxi (estimate). Times in your local zone (${TZ}).`;
+  drawHistory(fit);
+}
+function drawHistory(fit) {
+  if (!mapReady || !map.getSource('hist')) return;
+  const feats = [], pts = {}, h = hist;
+  if (h && !$('#hist').classList.contains('hide')) h.legs.forEach((l, i) => {
+    if (!histSel.has(i) || !l.from?.lat || !l.to?.lat) return;
+    feats.push({type: 'Feature', geometry: {type: 'LineString', coordinates: [[l.from.lon, l.from.lat], [l.to.lon, l.to.lat]]}, properties: {lg: l.lifeguard ? 1 : 0}});
+    for (const a of [l.from, l.to]) pts[a.code] = {type: 'Feature', geometry: {type: 'Point', coordinates: [a.lon, a.lat]}, properties: {code: apCode(a)}};
+  });
+  map.getSource('hist').setData({type: 'FeatureCollection', features: feats});
+  map.getSource('histap').setData({type: 'FeatureCollection', features: Object.values(pts)});
+  if (fit && feats.length) {
+    const b = new maplibregl.LngLatBounds(); feats.forEach(f => f.geometry.coordinates.forEach(c => b.extend(c)));
+    const wide = innerWidth > 800;
+    map.fitBounds(b, {padding: wide ? {top: 60, bottom: 60, left: 60, right: 620} : {top: 40, bottom: 40, left: 30, right: 30}, maxZoom: 8, duration: 800});
+  }
+}
+$('#hTbl tbody').addEventListener('click', e => {
+  const r = e.target.closest('tr[data-i]'); if (!r) return; const i = +r.dataset.i, l = hist.legs[i];
+  if (!(l.from && l.to)) return;
+  histSel.has(i) ? histSel.delete(i) : histSel.add(i); renderHistory(true);
+});
+$('#hDays').addEventListener('change', () => hist && openHistory(hist.tail));
+$('#hClose').addEventListener('click', () => { $('#hist').classList.add('hide'); document.body.classList.remove('hist-open'); hist = null; drawHistory(false); });
+
 boot();
 })();

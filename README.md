@@ -15,12 +15,21 @@ Live map + cards for the Part 135 fleets you work with, grouped and colour-coded
   operator/type/status filters and sortable columns (tail, operator, type, status, last landed, last seen).
   Header badge "Data X sec old · source" turns amber after 90 s and red after 5 min. Times are shown in the
   viewer's local zone with a zone label.
+  **Report** view: daily fleet report (pick a date; default yesterday, America/New_York) – per operator and tail,
+  every leg (from, to, takeoff, landing, block estimate = airborne + 12 min taxi), totals per tail/operator and
+  lifeguard flags. **Availability** view: tails on the ground, longest-on-ground first, with operator/type
+  filters and the tails never seen since tracking began. Tap any tail (lists, report, popup) for its
+  **30-day history** panel: legs, route lines on the map for ticked legs, totals and a CSV download.
 - `data/fleet.json` – **the fleet list. Edit this to add operators/tails.**
 - `data/state.json` – committed seed of last-known positions (read at startup, never written by the server).
 
 ## API
 - `/api/fleet`, `/api/state` (planes keyed by tail, incl. `lastLanding`, `lastTakeoff`, `phase`, `health`)
 - `/api/events?tail=N123AB&limit=50` – newest takeoff/landing events
+- `/api/events?recent=24` – the newest landings across the fleet (with matched origin)
+- `/api/report?date=YYYY-MM-DD` – daily fleet report (default yesterday in America/New_York)
+- `/api/history?tail=N123AB&days=30` – legs for one tail (`&format=csv` downloads a CSV). A landing whose takeoff
+  wasn't heard gets its origin from the previous landing airport (`fromPrior: true`, "prior stop").
 - `/api/export` – full history dump (JSON)
 - `/healthz` – JSON: `status` ok / stale / down / starting, seconds since last successful poll, source health,
   storage health. HTTP 503 only when no poll has succeeded for 10 min.
@@ -56,6 +65,9 @@ memory and retries with backoff, then merges and re-syncs when it is back.
 - `KV_URL` – Render Key Value `jet-tracker-1-kv` (red-dc0anb6tlv9c739mifvg, free, internal URL
   `redis://red-dc0anb6tlv9c739mifvg:6379`). Survives web-service redeploys/restarts; free Key Value keeps data in
   memory only, so it can be lost if Render restarts the Key Value instance itself.
+- Retention: events older than `RETAIN_DAYS` (default 90) are pruned hourly from memory and all backends.
+- `render.yaml` (Blueprint `exs-dc1r71qjnfac739i0c90`, auto-sync off) wires `DATABASE_URL` from `jet-tracker-1-db`
+  via `fromDatabase` once the Blueprint sync is approved in Render.
 - `data/runtime/history.json` – always written (durable on a normal machine, wiped on Render redeploys).
 
 ### Moving the history (e.g. to Supabase before the free Postgres expires)
