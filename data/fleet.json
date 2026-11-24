@@ -168,6 +168,22 @@
    "color": "#483d8b",
    "cert": "ZP7A",
    "certName": "Jet Logistics, Inc."
+  },
+  {
+   "id": "skyward",
+   "name": "Skyward Aviation",
+   "base": "AFJ",
+   "color": "#daa520",
+   "cert": "S2KA",
+   "certName": "RSB Investments LLC dba Skyward Aviation"
+  },
+  {
+   "id": "aery",
+   "name": "Aery Aviation",
+   "base": "PHF",
+   "color": "#a0522d",
+   "cert": "SAOA",
+   "certName": "Aery Aviation, LLC"
   }
  ],
  "tails": [
@@ -2255,6 +2271,160 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
    "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N412SW",
+   "hex": "a4dd33",
+   "op": "skyward",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N418DL",
+   "hex": "a4f22e",
+   "op": "skyward",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N724SA",
+   "hex": "a9b3f9",
+   "op": "skyward",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1993",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N90VJ",
+   "hex": "ac6eb7",
+   "op": "skyward",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N335SJ",
+   "hex": "a3a9fb",
+   "op": "skyward",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2008",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N772PP",
+   "hex": "aa71c8",
+   "op": "skyward",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2005",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N783SA",
+   "hex": "aa9d3c",
+   "op": "skyward",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2009",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N97SW",
+   "hex": "ad82f1",
+   "op": "skyward",
+   "model": "Learjet 60",
+   "faaModel": "LEARJET INC 60",
+   "year": "2000",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N23NL",
+   "hex": "a2075e",
+   "op": "skyward",
+   "model": "Pilatus PC-24",
+   "faaModel": "PILATUS AIRCRAFT LTD PC-24",
+   "year": "2023",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (S2KA, Nov 2026) + FAA registry",
+   "note": "User asked for Skyward in Pennsylvania or Virginia with a bunch of Lears. The only matching Part 135 holder is RSB Investments LLC (S2KA), which does business as Skyward Aviation (skywardaviation.com). HQ is Washington County Airport (AFJ), Washington, PA; they also have a base at Manassas (HEF), VA. No other certificate is named Skyward."
+  },
+  {
+   "tail": "N314SB",
+   "hex": "a3573f",
+   "op": "aery",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2023",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
+   "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
+  },
+  {
+   "tail": "N331SB",
+   "hex": "a39b18",
+   "op": "aery",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2022",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
+   "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
+  },
+  {
+   "tail": "N340SR",
+   "hex": "a3beee",
+   "op": "aery",
+   "model": "Learjet 40",
+   "faaModel": "LEARJET INC 45",
+   "year": "2006",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
+   "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
+  },
+  {
+   "tail": "N632JS",
+   "hex": "a84603",
+   "op": "aery",
+   "model": "Learjet 45",
+   "faaModel": "LEARJET INC 45",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
+   "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
+  },
+  {
+   "tail": "N972PF",
+   "hex": "ad8c5e",
+   "op": "aery",
+   "model": "Premier I",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY 390",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
+   "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
   }
  ]
 }
