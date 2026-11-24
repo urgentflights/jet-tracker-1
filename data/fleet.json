@@ -160,6 +160,14 @@
    "color": "#ffd8b1",
    "cert": "6TXA",
    "certName": "Craft Charter, LLC"
+  },
+  {
+   "id": "txjet",
+   "name": "TX Jet / Jet Logistics",
+   "base": "JZI",
+   "color": "#483d8b",
+   "cert": "ZP7A",
+   "certName": "Jet Logistics, Inc."
   }
  ],
  "tails": [
@@ -2115,6 +2123,138 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (6TXA, Nov 2026) + FAA registry",
    "note": "User asked to add Craft based in FXE/FLL. Certificate is Craft Charter, LLC (6TXA), which brands as Craft (flycraft.com). FAA certificate address and the company's site put the operating base at Opa-locka (OPF). They serve Fort Lauderdale and quote FXE, then FLL, for those trips."
+  },
+  {
+   "tail": "N290K",
+   "hex": "a2f65b",
+   "op": "txjet",
+   "model": "King Air E90",
+   "faaModel": "BEECH E-90",
+   "year": "1980",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N304TX",
+   "hex": "a32fed",
+   "op": "txjet",
+   "model": "Citation CJ3+",
+   "faaModel": "TEXTRON AVIATION INC 525B",
+   "year": "2018",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N533TX",
+   "hex": "a6bd51",
+   "op": "txjet",
+   "model": "Citation CJ3+",
+   "faaModel": "TEXTRON AVIATION INC 525B",
+   "year": "2018",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N403TX",
+   "hex": "a4b985",
+   "op": "txjet",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2024",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N855TX",
+   "hex": "abbbaa",
+   "op": "txjet",
+   "model": "Cirrus Vision SF50",
+   "faaModel": "CIRRUS DESIGN CORP SF50",
+   "year": "2025",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N806GJ",
+   "hex": "aaf8c6",
+   "op": "txjet",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N864BF",
+   "hex": "abddd2",
+   "op": "txjet",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2002",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N929JH",
+   "hex": "ace069",
+   "op": "txjet",
+   "model": "Learjet 31A",
+   "faaModel": "LEARJET INC 31A",
+   "year": "1997",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N421SV",
+   "hex": "a500fa",
+   "op": "txjet",
+   "model": "Learjet 35A",
+   "faaModel": "GATES LEARJET CORP. 35A",
+   "year": "1990",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N426SA",
+   "hex": "a5137a",
+   "op": "txjet",
+   "model": "Learjet 45",
+   "faaModel": "LEARJET INC 45",
+   "year": "2011",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N429SA",
+   "hex": "a51e9f",
+   "op": "txjet",
+   "model": "Learjet 45",
+   "faaModel": "LEARJET INC 45",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
+  },
+  {
+   "tail": "N282BT",
+   "hex": "a2d594",
+   "op": "txjet",
+   "model": "Shorts 360 Sherpa",
+   "faaModel": "SHORT BROS SD3-60 SHERPA",
+   "year": "1997",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (ZP7A, Nov 2026) + FAA registry",
+   "note": "User asked for TX Jet / Jet Logistics and cited N533TX. Certificate is Jet Logistics, Inc. (ZP7A). N533TX's registry also lists TXJET INC as an other owner name (NLW Inc. dba). Company site lists main base Johns Island, SC (JZI) and a secondary base at Goodyear, AZ (GYR); the TX-suffixed CJ3s and Vision Jets are registered in Indianapolis (IND)."
   }
  ]
 }
