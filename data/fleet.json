@@ -2488,6 +2488,17 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
    "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
+  },
+  {
+   "tail": "N742LG",
+   "hex": "a9faf9",
+   "op": "transnorth",
+   "model": "Cirrus SR22",
+   "faaModel": "CIRRUS DESIGN CORP SR22",
+   "year": "2020",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked to add Trans North's Cirrus because they use it for kidney boxes. N742LG is the SR22 on Trans North Aviation, Ltd.'s EBFA certificate (FAA Part 135 list, Nov 2026) + FAA registry."
   }
  ]
 }
