@@ -184,6 +184,14 @@
    "color": "#a0522d",
    "cert": "SAOA",
    "certName": "Aery Aviation, LLC"
+  },
+  {
+   "id": "transnorth",
+   "name": "Trans North Aviation",
+   "base": "ISM",
+   "color": "#2874a6",
+   "cert": "EBFA",
+   "certName": "Trans North Aviation, Ltd."
   }
  ],
  "tails": [
@@ -2425,6 +2433,61 @@
    "confidence": "high",
    "source": "FAA Part 135 operator/aircraft list (SAOA, Nov 2026) + FAA registry",
    "note": "User asked for Aery. Certificate is Aery Aviation, LLC (SAOA). Company HQ and Part 135 base are Newport News/Williamsburg (PHF); they also operate from BKL, NZY and FLL."
+  },
+  {
+   "tail": "N1327J",
+   "hex": "a085f5",
+   "op": "transnorth",
+   "model": "Citation CJ1",
+   "faaModel": "CESSNA 525",
+   "year": "1993",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
+  },
+  {
+   "tail": "N907DK",
+   "hex": "ac8982",
+   "op": "transnorth",
+   "model": "Citation CJ1",
+   "faaModel": "CESSNA 525",
+   "year": "1999",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
+  },
+  {
+   "tail": "N440WP",
+   "hex": "a54c9f",
+   "op": "transnorth",
+   "model": "Hawker 800XP",
+   "faaModel": "RAYTHEON AIRCRAFT COMPANY HAWKER 800XP",
+   "year": "2001",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
+  },
+  {
+   "tail": "N89TB",
+   "hex": "ac44a6",
+   "op": "transnorth",
+   "model": "Learjet 35A",
+   "faaModel": "GATES LEARJET CORP. 35A",
+   "year": "1979",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
+  },
+  {
+   "tail": "N630MW",
+   "hex": "a83ee4",
+   "op": "transnorth",
+   "model": "Cheyenne IIXL",
+   "faaModel": "PIPER PA-31T2",
+   "year": "",
+   "confidence": "high",
+   "source": "FAA Part 135 operator/aircraft list (EBFA, Nov 2026) + FAA registry",
+   "note": "User asked for Trans North Aviation. Certificate is Trans North Aviation, Ltd. (EBFA). Company site (transnorthaviation.com) and registry addresses put the current base at Kissimmee Gateway (ISM); they also list APA, GRB, RAC, JZI and BKV. They historically had a Chicago/PWK operation, but that is not the current HQ. Trans Northern Airways, LLC (6TSA) and TransNorthern LLC (TN8A, Alaska) are different operators and were not added."
   }
  ]
 }
